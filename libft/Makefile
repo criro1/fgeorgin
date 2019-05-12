@@ -6,7 +6,7 @@
 #    By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/08 17:15:16 by fgeorgin          #+#    #+#              #
-#    Updated: 2019/05/02 18:26:31 by fgeorgin         ###   ########.fr        #
+#    Updated: 2019/05/03 21:47:25 by fgeorgin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,15 +14,18 @@ NAME = libft.a
 
 HEADER = libft.h
 
-SRC = *.c
+SRC = $(wildcard *.c)
 
-OBJ = *.o
+OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME):
-	gcc -Wall -Wextra -Werror -c $(HEADER) $(SRC)
+$(NAME): $(OBJ)
 	ar rc $(NAME) $(OBJ)
+	ranlib $(NAME)
+
+$(OBJ): %.o : %.c
+	gcc -Wall -Wextra -Werror -c $< -o $@
 
 clean:
 	/bin/rm -f $(OBJ)

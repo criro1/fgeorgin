@@ -6,7 +6,7 @@
 /*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/13 17:37:29 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/05/03 14:12:59 by fgeorgin         ###   ########.fr       */
+/*   Updated: 2019/05/03 15:11:50 by fgeorgin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,16 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 			return (NULL);
 	while (haystack[i] != '\0' && i < len)
 	{
-		while (haystack[i] == needle[j] && i < len)
+		while (haystack[i + j] == needle[j] && i + j < len)
 		{
-			if (needle[j + 1] == '\0' && haystack[i] == needle[j])
-				return ((char*)haystack + i - j);
-			if (haystack[i + 1] != needle[j + 1])
-				j = -1;
-			i++;
+			if (needle[j + 1] == '\0' && haystack[i + j] == needle[j])
+				return ((char*)haystack + i);
+			if (haystack[i + j + 1] != needle[j + 1])
+				break ;
 			j++;
 		}
 		i++;
+		j = 0;
 	}
 	return (0);
 }
-
-/*
-int		main(){
-	printf("%s\n", ft_strnstr("oooozaraboze123", "ozaraboze", 15));
-	return (0);
-}*/
