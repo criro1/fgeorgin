@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: forange- <forange-@student.fr.42>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 17:42:51 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/07/01 16:28:54 by fgeorgin         ###   ########.fr       */
+/*   Updated: 2019/07/04 21:29:52 by forange-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putendl_fd(char const *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
+int					ft_min(int *mas, size_t size);
+int					ft_max(int *mas, size_t size);
+int					ft_sqrt(int x);
+
 typedef struct		s_list
 {
 	void			*content;
