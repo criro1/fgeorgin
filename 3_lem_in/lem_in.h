@@ -25,7 +25,7 @@ typedef struct			s_room
 
 typedef struct			s_map
 {
-	t_room				room[100000];
+	t_room				room[1000000];
 	int					data;/*0 - nothing 1 - number_of_ants 2 - the_rooms*/
 	int					num_ants;
 	int					start;

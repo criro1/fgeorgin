@@ -99,7 +99,8 @@ void	ft_sharp(t_map *map, char *line, int fd) //fegrijfoekpjwighruiifjwodijo
 	{
 		se = line[3];
 		free(line);
-		get_next_line(fd/*0*/, &line);
+		// fd = 0;
+		get_next_line(fd, &line);//dwqqwdqwdqwdwqdqwdqwdqwdqw
 		if (line[0] != 'L')
 			the_room(map, line, (se == 's' ? 0 : 1));/* 0 - start, 1 - end, 2 - another */
 		else
@@ -109,13 +110,6 @@ void	ft_sharp(t_map *map, char *line, int fd) //fegrijfoekpjwighruiifjwodijo
 			write(2, "Error\n", 6);
 			exit(0);
 		}
-	}
-	else
-	{
-		free(map);
-		free(line);
-		write(2, "Error\n", 6);
-		exit(0);
 	}
 }
 
@@ -153,12 +147,17 @@ void	ft_valid(t_map *map)
 	char	*line;
 
 	int fd = open("subject.map", O_RDONLY); //ewfkjoghruirejighqgrh0hrgqie
-	while (get_next_line(fd/*0*/, &line))
+	while (get_next_line(fd, &line))
 	{
 		if (map->data == 0 && ft_strchr("0123456789-", line[0]))
 			number_of_ants(map, line);
 		else if (line[0] != '\0' && line[0] == '#')
+		{
+			// int fd = 0;
 			ft_sharp(map, line, fd); // fwegrrfwedfergethryjhtgrfgeth
+		}
+		// else if (line[0] == '#')
+		// 	break ;
 		else if (map->data == 3 || ft_strchr(line, '-'))
 			the_links(map, line);
 		else if (line[0] != '\0' && line[0] != 'L'
@@ -184,12 +183,13 @@ int     main()
 		j++;
 	}
 	ft_valid(map);
-	int n = ft_find_hash("1");
+	int n = ft_find_hash("2");
 	printf("name = %s\n", map->room[n].name);
-	while (map->room[n].curr_link >= 0)
+	printf("curr_link before while = %d\n", map->room[n].curr_link);
+	while (map->room[n].curr_link > 0)
 	{
-		printf("curr_link = %d\n", map->room[n].curr_link);
 		map->room[n].curr_link--;
+		printf("curr_link = %d\n", map->room[n].curr_link);
 		ft_printf("%s\n", map->room[n].links[map->room[n].curr_link]);
 	}
 	free(map);
