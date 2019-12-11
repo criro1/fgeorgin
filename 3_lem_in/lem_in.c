@@ -41,6 +41,8 @@ int		check_x_y(char *s)
 	int i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (s[i] != '\0')
 	{
 		if (!ft_isdigit(s[i]))
@@ -70,6 +72,7 @@ void	the_room(t_map *map, char *line, int sea)
 	char	**arr;
 	int		n;
 
+	printf("in the_room = %s\n", line);//fdsnioghueowijhgueijewr
 	arr = ft_strsplit(line, ' ');
 	if (arr[3] != NULL || !check_x_y(arr[1]) || !check_x_y(arr[2]))
 	{
@@ -87,7 +90,6 @@ void	the_room(t_map *map, char *line, int sea)
 	else if (sea == 1)
 		map->end = n;
 	map->data = 2;
-	printf("int the_room = %s\n", line);
 }
 
 void	ft_sharp(t_map *map, char *line, int fd) //fegrijfoekpjwighruiifjwodijo
@@ -97,7 +99,7 @@ void	ft_sharp(t_map *map, char *line, int fd) //fegrijfoekpjwighruiifjwodijo
 	printf("in ft_sharp = %s\n", line);
 	if (!ft_strcmp(line, "##start") || !ft_strcmp(line, "##end"))
 	{
-		se = line[3];
+		se = line[2];
 		free(line);
 		// fd = 0;
 		get_next_line(fd, &line);//dwqqwdqwdqwdwqdqwdqwdqwdqw
@@ -123,8 +125,7 @@ void	the_links(t_map *map, char *line)
 	ar = ft_strsplit(line, '-');
 	n0 = ft_find_hash(ar[0]);
 	n1 = ft_find_hash(ar[1]);
-	if (ar[2] != NULL || ft_strcmp(ar[0], map->room[n0].name)
-		|| ft_strcmp(ar[1], map->room[n1].name))
+	if (ar[2] != NULL || !(map->room[n0].name) || !(map->room[n1].name))
 	{
 		free(map);
 		free(line);
@@ -156,19 +157,30 @@ void	ft_valid(t_map *map)
 			// int fd = 0;
 			ft_sharp(map, line, fd); // fwegrrfwedfergethryjhtgrfgeth
 		}
-		// else if (line[0] == '#')
-		// 	break ;
-		else if (map->data == 3 || ft_strchr(line, '-'))
+		else if (line[0] != '\0' && line[0] != 'L'
+			&& (map->data == 3 || ft_strchr(line, '-')))
 			the_links(map, line);
 		else if (line[0] != '\0' && line[0] != 'L'
 			&& (map->data == 1 || map->data == 2))
 			the_room(map, line, 2);/* 0 - start, 1 - end, 2 - another */
 		else
+		{
+			free(map);
+			free(line);
+			write(2, "Error\n", 6);
 			exit(0);
+		}
 		free(line);
 	}
-	if (map->data == 0)
+	printf("map->start = %d\n", map->start);
+	printf("map->end = %d\n", map->end);
+	if (map->data != 3 || !map->start || !map->end)
+	{
+		free(map);
+		write(2, "Error\n", 6);
 		exit(0);
+	}
+	close(fd);//defwgrijuhirfeijwhqrugofjpwihrugiofjowghruifwijhu
 }
 
 int     main()
@@ -176,12 +188,12 @@ int     main()
 	t_map	*map;
 
 	map = (t_map*)ft_memalloc(sizeof(t_map));
-	int j = 0;
-	while (j < 100000)
-	{
-		map->room[j].curr_link = 0;
-		j++;
-	}
+	// int j = 0;
+	// while (j < 100000)
+	// {
+	// 	map->room[j].curr_link = 0;
+	// 	j++;
+	// }
 	ft_valid(map);
 	int n = ft_find_hash("2");
 	printf("name = %s\n", map->room[n].name);
