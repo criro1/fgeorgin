@@ -12,6 +12,14 @@
 
 #include "lem_in.h"
 
+void	ft_exit(t_map *map, char *line, int pos)
+{
+	free(map);
+	free(line);
+	write(2, "Error\n", 6);
+	exit(0);
+}
+
 void	number_of_ants(t_map *map, char *line)
 {
 	if (!ft_strcmp(line, ft_itoa(ft_atoi(line))))
@@ -19,21 +27,11 @@ void	number_of_ants(t_map *map, char *line)
 		printf("in number_of_ants = %s\n", line);
 		map->num_ants = ft_atoi(line);
 		if (map->num_ants <= 0)
-		{
-			free(map);
-			free(line);
-			write(2, "Error\n", 6);
-			exit(0);
-		}
+			ft_exit(map, line, 0);
 		map->data = 1;
 	}
 	else
-	{
-		free(map);
-		free(line);
-		write(2, "Error\n", 6);
-		exit(0);
-	}
+		ft_exit(map, line, 0);
 }
 
 int		check_x_y(char *s)
@@ -49,6 +47,8 @@ int		check_x_y(char *s)
 			return (0);
 		i++;
 	}
+	if (s[0] == '\0')
+		return (0);
 	return (1);
 }
 
@@ -75,7 +75,7 @@ void	the_room(t_map *map, char *line, int sea)
 	printf("in the_room = %s\n", line);//fdsnioghueowijhgueijewr
 	arr = ft_strsplit(line, ' ');
 	if (arr[3] != NULL || !check_x_y(arr[1]) || !check_x_y(arr[2]))
-	{
+	{//it should be freed another way
 		free(map);
 		free(line);
 		write(2, "Error\n", 6);
@@ -106,12 +106,7 @@ void	ft_sharp(t_map *map, char *line, int fd) //fegrijfoekpjwighruiifjwodijo
 		if (line[0] != 'L')
 			the_room(map, line, (se == 's' ? 0 : 1));/* 0 - start, 1 - end, 2 - another */
 		else
-		{
-			free(map);
-			free(line);
-			write(2, "Error\n", 6);
-			exit(0);
-		}
+			ft_exit(map, line, 0);
 	}
 }
 
