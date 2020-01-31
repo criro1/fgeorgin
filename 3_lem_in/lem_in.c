@@ -154,9 +154,11 @@ void	make_link(t_map *map, int n0, int n1)
 
 	l = (t_link*)ft_memalloc(sizeof(t_link));
 	l->link_num = n1;
-	int k = -1; //fewrgwefefewfewfewfewfew
-	while (++k < 10) ///wefeweffewfewfweewfweffew
-		l->name[k] = map->room[n1].name[k]; //wefefwefefewfefwwefefw
+	char *name_l = (char*)ft_memalloc(sizeof(char) * 10); //weffewfewfefewff
+	int k = -1; //fewrgwefefewfewfewfewfewefwefewffwefewefwfwfewefewefwfewff
+	while (++k < 10) ///wefeweffewfewfweewfweffewewfefewfewfeefwefwfewfewwef
+		name_l[k] = map->room[n1].name[k]; //wefefwefefewfefwwefefwefwefefwfewf
+	l->name = name_l; //fewroiroehfewhofehiefwihfweihofewoihfeifweewfewff
 	if (map->room[n0].links == NULL)
 	{
 		map->room[n0].links = l;
