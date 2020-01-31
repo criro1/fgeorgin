@@ -110,7 +110,6 @@ void	number_of_ants(t_map *map, char *line)
 // {
 // 	int i;
 // 	int res;
-
 // 	i = 0;
 // 	res = 1;
 // 	while (s[i] != '\0')
