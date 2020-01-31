@@ -57,6 +57,21 @@ long long		ft_atolli(const char *str)
 	return ((s == -1) ? -num : num);
 }
 
+int				ft_num_of_digit(char *s)
+{
+	int i;
+	int res;
+
+	i = 0;
+	res = 0;
+	while (ft_isdigit(s[i]))
+	{
+		res++;
+		i++;
+	}
+	return (res);
+}
+
 int		check_x_y(char *s)
 {
 	int i;
@@ -65,6 +80,8 @@ int		check_x_y(char *s)
 	if (!s)
 		return (0);
 	if (ft_atolli(s) >= 2147483648 || ft_atolli(s) <= -2147483649)
+		return (0);
+	if (ft_num_of_digit(s) > 10)
 		return (0);
 	while (s[i] != '\0')
 	{
@@ -286,11 +303,11 @@ void	ft_bfs(t_room *room, t_room curr_room, t_room end, t_room prev_room)
 	printf("name = %s\n", curr_room.name);
 	while (curr_room.links)
 	{
+		if (room[curr_room.links->link_num].x == prev_room.x
+			&& room[curr_room.links->link_num].y == prev_room.y)
+			curr_room.links = curr_room.links->next;
 		if (curr_room.x == end.x && curr_room.y == end.y)
 			break ;
-		else if (room[curr_room.links->link_num].x == prev_room.x 
-			&& room[curr_room.links->link_num].y == prev_room.y)
-			continue ;
 		else
 			ft_bfs(room, room[curr_room.links->link_num], end, curr_room);
 		curr_room.links = curr_room.links->next;
