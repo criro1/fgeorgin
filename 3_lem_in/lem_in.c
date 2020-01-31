@@ -14,23 +14,19 @@
 
 void	ft_exit(t_map *map, char *line, int err)
 {
-	// int i;
-	// int j;
+	int i;
 
-	// i = 0;
-	// while (i < map->curr_hash)
-	// {
-	// 	j = 0;
-	// 	if (map->room[map->hash_of_rooms[i]].links)
-	// 		while (map->room[map->hash_of_rooms[i]].links[j])
-	// 		{
-	// 			free(map->room[map->hash_of_rooms[i]].links[j]);
-	// 			j++;
-	// 		}
-	// 	free(map->room[map->hash_of_rooms[i]].name);
-	// 	free(map->room[map->hash_of_rooms[i]].links);
-	// 	i++;
-	// }
+	i = 0;
+	while (map->room[i].name)
+	{
+		while (map->room[i].links)
+		{
+			free(map->room[i].links);
+			map->room[i].links = map->room[i].links->next;
+		}
+		free(map->room[i].name);
+		i++;
+	}
 	free(map);
 	if (line)
 		free(line);
