@@ -14,14 +14,30 @@
 # define LEM_IN_H
 # include "libft/libft.h"
 
+typedef struct			s_link
+{
+	int					link_num;
+	struct s_link		*next;
+}						t_link;
+
 typedef struct			s_room
 {
+	int					num;
 	char				*name;
-	char				**links;
+	t_link				*links;
 	int					curr_link;
 	int					x;
 	int					y;
 }						t_room;
+
+// typedef struct			s_room
+// {
+// 	char				*name;
+// 	char				**links;
+// 	int					curr_link;
+// 	int					x;
+// 	int					y;
+// }						t_room;
 
 typedef struct			s_map
 {
