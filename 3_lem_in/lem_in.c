@@ -216,6 +216,24 @@ void	the_links(t_map *map, char *line)
 	// ft_free_split(arr);
 }
 
+int		ft_coord(t_map *map, char *s1, char *s2)
+{
+	int i;
+	int x;
+	int y;
+
+	x = ft_atoi(s1);
+	y = ft_atoi(s2);
+	i = 0;
+	while (map->room[i].name)
+	{
+		if (map->room[i].x == x && map->room[i].y == y)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	the_room(t_map *map, char *line, int sea, int *i)
 {
 	char	**arr;
@@ -223,8 +241,8 @@ void	the_room(t_map *map, char *line, int sea, int *i)
 
 	printf("in the_room = %s\n", line);//fdsnioghueowijhgueijewr
 	arr = ft_strsplit(line, ' ');
-	if (arr[3] != NULL || !check_x_y(arr[1]) || !check_x_y(arr[2])
-		|| ft_find_num(map->room, arr[0]) != -1)
+	if (arr[3] != NULL || !check_x_y(arr[1]) || !check_x_y(arr[2]) ||
+		ft_find_num(map->room, arr[0]) != -1 || !ft_coord(map, arr[1], arr[2]))
 	{
 		ft_free_split(arr);
 		ft_exit(map, line, 0);
@@ -275,7 +293,7 @@ void	ft_valid(t_map *map, int i)
 {
 	char	*line;
 
-	int fd = open(/*"./archive/map"*/"subject.map", O_RDONLY); //ewfkjoghruirejighqgrh0hrgqie
+	int fd = open("subject.map", O_RDONLY); //   ./archive/map subject.map
 	while (get_next_line(fd, &line))
 	{
 		if (map->data == 0 && ft_strchr("0123456789-", line[0]))
