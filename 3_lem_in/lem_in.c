@@ -324,7 +324,7 @@ void	ft_valid(t_map *map, int i)
 {
 	char	*line;
 
-	int fd = open("map", O_RDONLY); //   ./archive/map subject.map
+	int fd = open("subject.map", O_RDONLY); //   ./archive/map subject.map
 	while (get_next_line(fd, &line))
 	{
 		if (map->data == 0 && ft_strchr("0123456789-", line[0]))
@@ -345,37 +345,65 @@ void	ft_valid(t_map *map, int i)
 		ft_exit(map, NULL, 0);
 }
 
-int	ft_bfs(t_room *room, t_room curr_room, t_room start, t_room end, t_room prev_room, int min)
+// int		ft_bfs(t_room *room, t_room curr_room, t_room start, t_room end, t_room prev_room, int min)
+// {
+// 	// printf("name = %s\n", curr_room.name);
+// 	t_link *tmp;
+// 	tmp = curr_room.links;
+// 	int i = 9999999;
+// 	int count = 0;
+// 	while (tmp)
+// 	{
+// 		if ((room[tmp->link_num].x == prev_room.x && room[tmp->link_num].y == prev_room.y)
+// 		|| (room[tmp->link_num].level == 1))// || (room[tmp->link_num].level == 2 && curr_room.level == 0))
+// 			{
+// 				tmp = tmp->next;
+// 				continue ;
+// 			}
+// 		// if (curr_room.x == end.x && curr_room.y == end.y)
+// 		if (curr_room.level == 3)
+// 			return (min);
+// 		else
+// 			count = ft_bfs(room, room[tmp->link_num], start, end, curr_room, min + 1);
+// 		tmp = tmp->next;
+// 		if (count < i)
+// 			i = count;
+// 		// printf("name = %s\n", curr_room.name);
+// 	}
+// 	return (i);
+// }
+
+int		ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 {
-	// printf("name = %s\n", curr_room.name);
+	printf("name = %s\n", curr_room.name);
 	t_link *tmp;
 	tmp = curr_room.links;
 	int i = 9999999;
 	int count = 0;
 	while (tmp)
 	{
-		if ((room[tmp->link_num].x == prev_room.x && room[tmp->link_num].y == prev_room.y)
-		|| (room[tmp->link_num].level == 1))// || (room[tmp->link_num].level == 2 && curr_room.level == 0))
+		if ((map->room[tmp->link_num].x == prev_room.x
+			&& map->room[tmp->link_num].y == prev_room.y)
+			|| (map->room[tmp->link_num].level == 1))
 			{
 				tmp = tmp->next;
 				continue ;
 			}
-		// if (curr_room.x == end.x && curr_room.y == end.y)
-		if (curr_room.level == 3)
+		if (curr_room.num == map->end)
 			return (min);
 		else
-			count = ft_bfs(room, room[tmp->link_num], start, end, curr_room, min + 1);
+			count = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
 		tmp = tmp->next;
 		if (count < i)
 			i = count;
-		// printf("name = %s\n", curr_room.name);
+		printf("name = %s\n", curr_room.name);
 	}
 	return (i);
 }
 
 void	ft_solution(t_map *map, t_room *room)
 {
-	int num = ft_bfs(room, room[map->start], room[map->start], room[map->end], room[map->end], 0);
+	int num = ft_bfs(map, room[map->start], room[map->start], 0);
     printf("res = %d\n", num);
 }
 

@@ -43,14 +43,13 @@ typedef struct			s_room
 typedef struct			s_map
 {
 	t_room				room[1000000];
-	int					hash_of_rooms[1000000];
-	int					curr_hash;
 	int					data;/*0 - nothing 1 - number_of_ants 2 - the_rooms*/
 	int					num_ants;
 	int					start;
 	char				ok_s;
 	int					end;
 	char				ok_e;
+	int					min;
 }						t_map;
 
 #endif
