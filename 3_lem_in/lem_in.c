@@ -330,25 +330,29 @@ void	ft_valid(t_map *map, int i)
 		ft_exit(map, NULL, 0);
 }
 
-void	ft_bfs(t_room *room, t_room curr_room, t_room end, t_room prev_room)
+void	ft_bfs(t_room *room, t_room curr_room, t_room start, t_room end, t_room prev_room)
 {
 	printf("name = %s\n", curr_room.name);
-	while (curr_room.links)
+	t_link *tmp;
+	tmp = curr_room.links;
+	while (tmp)
 	{
-		if (room[curr_room.links->link_num].x == prev_room.x
-			&& room[curr_room.links->link_num].y == prev_room.y)
-			curr_room.links = curr_room.links->next;
+		if ((room[curr_room.links->link_num].x == prev_room.x
+			&& room[curr_room.links->link_num].y == prev_room.y) ||
+			(room[curr_room.links->link_num].x == start.x
+			&& room[curr_room.links->link_num].y == start.y))
+			tmp = tmp->next;
 		if (curr_room.x == end.x && curr_room.y == end.y)
 			break ;
 		else
-			ft_bfs(room, room[curr_room.links->link_num], end, curr_room);
-		curr_room.links = curr_room.links->next;
+			ft_bfs(room, room[tmp->link_num], start, end, curr_room);
+		tmp = tmp->next;
 	}
 }
 
 void	ft_solution(t_map *map, t_room *room)
 {
-	ft_bfs(room, room[map->start], room[map->end], room[map->end]);
+	ft_bfs(room, room[map->start], room[map->start], room[map->end], room[map->end]);
 }
 
 int		main()
