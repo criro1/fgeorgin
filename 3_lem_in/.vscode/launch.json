@@ -8,7 +8,7 @@
             "name": "gcc build and debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "program": "/Users/fgeorgin/fgeorgin/3_lem_in/lem-in",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

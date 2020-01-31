@@ -114,7 +114,7 @@ int		ft_find_num(t_room *room, char *arr_n)
 	return (-1);
 }
 
-void	make_links(t_map *map, int n0, int n1)
+void	make_link(t_map *map, int n0, int n1)
 {
 	t_link	*l;
 	t_link	*temp;
@@ -127,9 +127,9 @@ void	make_links(t_map *map, int n0, int n1)
 		return ;
 	}
 	temp = map->room[n0].links;
-	while (map->room[n0].links != NULL)
+	while (map->room[n0].links->next != NULL)
 		map->room[n0].links = map->room[n0].links->next;
-	map->room[n0].links = l;
+	map->room[n0].links->next = l;
 	map->room[n0].links = temp;
 }
 
@@ -145,9 +145,10 @@ void	the_links(t_map *map, char *line)
 	n1 = ft_find_num(map->room, arr[1]);
 	if (arr[2] != NULL || n0 == -1 || n1 == -1)
 		ft_exit(map, line, 0);
-	make_links(&map, n0, n1);
-	make_links(map, n1, n0);
-
+	make_link(map, n0, n1);
+	make_link(map, n1, n0);
+	map->data = 3;
+	ft_free_split(arr);
 	// l0 = (t_link*)ft_memalloc(sizeof(t_link));
 	// l0->link_num = n1;
 	// temp0 = map->room[n0].links;
@@ -160,8 +161,7 @@ void	the_links(t_map *map, char *line)
 	// while (map->room[n1].links != NULL)
 	// 	map->room[n1].links = map->room[n1].links->next;
 	// map->room[n1].links = l1;
-	map->data = 3;
-	ft_free_split(arr);
+	
 	// n0 = ft_find_hash(arr[0]);
 	// n1 = ft_find_hash(arr[1]);
 	// if (arr[2] != NULL || !(map->room[n0].name) || !(map->room[n1].name))
