@@ -345,12 +345,13 @@ void	ft_valid(t_map *map, int i)
 		ft_exit(map, NULL, 0);
 }
 
-void	ft_bfs(t_room *room, t_room curr_room, t_room start, t_room end, t_room prev_room)
+int	ft_bfs(t_room *room, t_room curr_room, t_room start, t_room end, t_room prev_room, int min)
 {
 	// printf("name = %s\n", curr_room.name);
-	prev_room.level = prev_room.level;
 	t_link *tmp;
 	tmp = curr_room.links;
+	int i = 9999999;
+	int count = 0;
 	while (tmp)
 	{
 		if ((room[tmp->link_num].x == prev_room.x && room[tmp->link_num].y == prev_room.y)
@@ -361,17 +362,21 @@ void	ft_bfs(t_room *room, t_room curr_room, t_room start, t_room end, t_room pre
 			}
 		// if (curr_room.x == end.x && curr_room.y == end.y)
 		if (curr_room.level == 3)
-			break ;
+			return (min);
 		else
-			ft_bfs(room, room[tmp->link_num], start, end, curr_room);
+			count = ft_bfs(room, room[tmp->link_num], start, end, curr_room, min + 1);
 		tmp = tmp->next;
+		if (count < i)
+			i = count;
 		// printf("name = %s\n", curr_room.name);
 	}
+	return (i);
 }
 
 void	ft_solution(t_map *map, t_room *room)
 {
-	ft_bfs(room, room[map->start], room[map->start], room[map->end], room[map->end]);
+	int num = ft_bfs(room, room[map->start], room[map->start], room[map->end], room[map->end], 0);
+    printf("res = %d\n", num);
 }
 
 int		main()
