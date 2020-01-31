@@ -167,6 +167,20 @@ void	make_link(t_map *map, int n0, int n1)
 	map->room[n0].links = temp;
 }
 
+int		ft_if_l(t_map *map, int n0, int n1)
+{
+	t_link *l;
+
+	l = map->room[n0].links;
+	while (l)
+	{
+		if (l->link_num == n1)
+			return (0);
+		l = l->next;
+	}
+	return (1);
+}
+
 void	the_links(t_map *map, char *line)
 {
 	char	**arr;
@@ -177,7 +191,7 @@ void	the_links(t_map *map, char *line)
 	arr = ft_strsplit(line, '-');
 	n0 = ft_find_num(map->room, arr[0]);
 	n1 = ft_find_num(map->room, arr[1]);
-	if (arr[2] != NULL || n0 == -1 || n1 == -1 || n0 == n1)
+	if (arr[2] != NULL || n0 == -1 || n1 == -1 || n0 == n1 || !ft_if_l(map, n0, n1))
 		ft_exit(map, line, 0);
 	make_link(map, n0, n1);
 	make_link(map, n1, n0);
