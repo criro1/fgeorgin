@@ -79,9 +79,7 @@ int		check_x_y(char *s)
 	i = 0;
 	if (!s)
 		return (0);
-	if (ft_atolli(s) >= 2147483648 || ft_atolli(s) <= -2147483649)
-		return (0);
-	if (ft_num_of_digit(s) > 10)
+	if (ft_num_of_digit(s) > 10 || ft_atolli(s) >= 2147483648)
 		return (0);
 	while (s[i] != '\0')
 	{
