@@ -25,7 +25,6 @@ typedef struct			s_room
 	int					num;
 	char				*name;
 	t_link				*links;
-	int					curr_link;
 	int					x;
 	int					y;
 }						t_room;

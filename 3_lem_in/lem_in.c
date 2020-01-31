@@ -36,12 +36,35 @@ void	ft_exit(t_map *map, char *line, int err)
 		exit(0);
 }
 
+long long		ft_atolli(const char *str)
+{
+	int			i;
+	long int	num;
+	int			s;
+
+	i = 0;
+	num = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	s = ((str[i] == '-') ? -1 : 0);
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		num = num * 10 + (str[i] - '0');
+		i++;
+	}
+	return ((s == -1) ? -num : num);
+}
+
 int		check_x_y(char *s)
 {
 	int i;
 
 	i = 0;
 	if (!s)
+		return (0);
+	if (ft_atolli(s) >= 2147483648 || ft_atolli(s) <= -2147483649)
 		return (0);
 	while (s[i] != '\0')
 	{
@@ -185,7 +208,8 @@ void	the_room(t_map *map, char *line, int sea, int *i)
 
 	printf("in the_room = %s\n", line);//fdsnioghueowijhgueijewr
 	arr = ft_strsplit(line, ' ');
-	if (arr[3] != NULL || !check_x_y(arr[1]) || !check_x_y(arr[2]))
+	if (arr[3] != NULL || !check_x_y(arr[1]) || !check_x_y(arr[2])
+		|| ft_find_num(map->room, arr[0]) != -1)
 	{
 		ft_free_split(arr);
 		ft_exit(map, line, 0);
@@ -196,9 +220,9 @@ void	the_room(t_map *map, char *line, int sea, int *i)
 	map->room[(*i)].y = ft_atoi(arr[2]);
 	(*i)++;
 	if (sea == 0)
-		map->start = (*i);
+		map->start = (*i) - 1;
 	else if (sea == 1)
-		map->end = (*i);
+		map->end = (*i) - 1;
 	map->data = 2;
 	ft_free_split(arr);
 	// n = ft_find_hash(arr[0]);
@@ -236,7 +260,7 @@ void	ft_valid(t_map *map, int i)
 {
 	char	*line;
 
-	int fd = open("./archive/map"/*"subject.map"*/, O_RDONLY); //ewfkjoghruirejighqgrh0hrgqie
+	int fd = open(/*"./archive/map"*/"subject.map", O_RDONLY); //ewfkjoghruirejighqgrh0hrgqie
 	while (get_next_line(fd, &line))
 	{
 		if (map->data == 0 && ft_strchr("0123456789-", line[0]))
@@ -257,25 +281,26 @@ void	ft_valid(t_map *map, int i)
 		ft_exit(map, NULL, 0);
 }
 
-// void	ft_bfs(t_room *room, t_room curr_room, t_room end, t_room prev_room)
-// {
-// 	curr_room.curr_link--;
-// 	printf("name = %s\n", curr_room.name);
-// 	while (curr_room.curr_link >= 0)
-// 	{
-// 		if (curr_room.x == end.x && curr_room.y == end.y)
-// 			break ;
-// 		// else if (room[ft_find_hash(curr_room.links[curr_room.curr_link])].name)
-// 		else
-// 			ft_bfs(room, room[ft_find_hash(curr_room.links[curr_room.curr_link])], end, curr_room);
-// 		curr_room.curr_link--;
-// 	}
-// }
+void	ft_bfs(t_room *room, t_room curr_room, t_room end, t_room prev_room)
+{
+	printf("name = %s\n", curr_room.name);
+	while (curr_room.links)
+	{
+		if (curr_room.x == end.x && curr_room.y == end.y)
+			break ;
+		else if (room[curr_room.links->link_num].x == prev_room.x 
+			&& room[curr_room.links->link_num].y == prev_room.y)
+			continue ;
+		else
+			ft_bfs(room, room[curr_room.links->link_num], end, curr_room);
+		curr_room.links = curr_room.links->next;
+	}
+}
 
-// void	ft_solution(t_map *map, t_room *room)
-// {
-// 	ft_bfs(room, room[map->start], room[map->end], room[map->end]);
-// }
+void	ft_solution(t_map *map, t_room *room)
+{
+	ft_bfs(room, room[map->start], room[map->end], room[map->end]);
+}
 
 int		main()
 {
@@ -283,7 +308,7 @@ int		main()
 
 	map = (t_map*)ft_memalloc(sizeof(t_map));
 	ft_valid(map, 0);
-	// ft_solution(map, map->room);
+	ft_solution(map, map->room);
 	ft_exit(map, NULL, 1);
 	return (0);
 }
