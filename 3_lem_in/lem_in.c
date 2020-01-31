@@ -157,7 +157,7 @@ void	make_link(t_map *map, int n0, int n1)
 	char *name_l = (char*)ft_memalloc(sizeof(char) * 10); //weffewfewfefewff
 	int k = -1; //fewrgwefefewfewfewfewfewefwefewffwefewefwfwfewefewefwfewff
 	while (++k < 10) ///wefeweffewfewfweewfweffewewfefewfewfeefwefwfewfewwef
-		name_l[k] = map->room[n1].name[k]; //wefefwefefewfefwwefefwefwefefwfewf
+		name_l[k] = map->room[n1].name[k]; //wefefwefefewfefwwefefwefwefefwf
 	l->name = name_l; //fewroiroehfewhofehiefwihfweihofewoihfeifweewfewff
 	if (map->room[n0].links == NULL)
 	{
@@ -191,12 +191,16 @@ void	the_links(t_map *map, char *line)
 	int		n0;
 	int		n1;
 
-	printf("in the_links = %s\n", line);
+	// printf("in the_links = %s\n", line);
 	arr = ft_strsplit(line, '-');
 	n0 = ft_find_num(map->room, arr[0]);
 	n1 = ft_find_num(map->room, arr[1]);
 	if (arr[2] != NULL || n0 == -1 || n1 == -1 || n0 == n1 || !ft_if_l(map, n0, n1))
 		ft_exit(map, line, 0);
+	if (map->room[n0].level == 1)
+		map->room[n1].level = 2;
+	if (map->room[n1].level == 1)
+		map->room[n0].level = 2;
 	make_link(map, n0, n1);
 	make_link(map, n1, n0);
 	map->data = 3;
@@ -256,7 +260,7 @@ void	the_room(t_map *map, char *line, int sea, int *i)
 {
 	char	**arr;
 
-	printf("in the_room = %s\n", line);//fdsnioghueowijhgueijewr
+	// printf("in the_room = %s\n", line);//fdsnioghueowijhgueijewr
 	arr = ft_strsplit(line, ' ');
 	if (arr[3] != NULL || !check_x_y(arr[1]) || !check_x_y(arr[2]) ||
 		ft_find_num(map->room, arr[0]) != -1 || !ft_coord(map, arr[1], arr[2]))
@@ -268,11 +272,17 @@ void	the_room(t_map *map, char *line, int sea, int *i)
 	map->room[(*i)].name = ft_strdup(arr[0]);
 	map->room[(*i)].x = ft_atoi(arr[1]);
 	map->room[(*i)].y = ft_atoi(arr[2]);
+	if (sea == 1)
+	{
+		map->start = (*i);
+		map->room[(*i)].level = 1; //ddvswefwqdwqqdqwdwqdwq
+	}
+	else if (sea == 3)
+	{
+		map->end = (*i);
+		map->room[(*i)].level = 3; //dqwdwqdqwdqwdqw
+	}
 	(*i)++;
-	if (sea == 0)
-		map->start = (*i) - 1;
-	else if (sea == 1)
-		map->end = (*i) - 1;
 	map->data = 2;
 	ft_free_split(arr);
 	// n = ft_find_hash(arr[0]);
@@ -293,7 +303,7 @@ void	ft_sharp(t_map *map, char **line, int fd, int *i)
 {
 	char se;
 
-	printf("in ft_sharp = %s\n", *line);
+	// printf("in ft_sharp = %s\n", *line);
 	if (!ft_strcmp(*line, "##start") || !ft_strcmp(*line, "##end"))
 	{
 		se = (*line)[2];
@@ -304,7 +314,7 @@ void	ft_sharp(t_map *map, char **line, int fd, int *i)
 		free(*line);
 		get_next_line(fd, &(*line));//dwqqwdqwdqwdwqdqwdqwdqwdqw
 		if (*line[0] != 'L')
-			the_room(map, *line, (se == 's' ? 0 : 1), &(*i));/* 0 - start, 1 - end, 2 - another */
+			the_room(map, *line, (se == 's' ? 1 : 3), &(*i));/* 1 - start, 2 - another, 3 - end*/
 		else
 			ft_exit(map, *line, 0);
 	}
@@ -314,7 +324,7 @@ void	ft_valid(t_map *map, int i)
 {
 	char	*line;
 
-	int fd = open("subject.map", O_RDONLY); //   ./archive/map subject.map
+	int fd = open("map", O_RDONLY); //   ./archive/map subject.map
 	while (get_next_line(fd, &line))
 	{
 		if (map->data == 0 && ft_strchr("0123456789-", line[0]))
@@ -337,24 +347,25 @@ void	ft_valid(t_map *map, int i)
 
 void	ft_bfs(t_room *room, t_room curr_room, t_room start, t_room end, t_room prev_room)
 {
-	printf("name = %s\n", curr_room.name);
+	// printf("name = %s\n", curr_room.name);
+	prev_room.level = prev_room.level;
 	t_link *tmp;
 	tmp = curr_room.links;
 	while (tmp)
 	{
-		if ((room[tmp->link_num].x == prev_room.x
-			&& room[tmp->link_num].y == prev_room.y) ||
-			(room[tmp->link_num].x == start.x
-			&& room[tmp->link_num].y == start.y))
+		if ((room[tmp->link_num].x == prev_room.x && room[tmp->link_num].y == prev_room.y)
+		|| (room[tmp->link_num].level == 1))// || (room[tmp->link_num].level == 2 && curr_room.level == 0))
 			{
 				tmp = tmp->next;
 				continue ;
 			}
-		if (curr_room.x == end.x && curr_room.y == end.y)
+		// if (curr_room.x == end.x && curr_room.y == end.y)
+		if (curr_room.level == 3)
 			break ;
 		else
 			ft_bfs(room, room[tmp->link_num], start, end, curr_room);
 		tmp = tmp->next;
+		// printf("name = %s\n", curr_room.name);
 	}
 }
 

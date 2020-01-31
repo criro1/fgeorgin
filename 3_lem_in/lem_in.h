@@ -26,6 +26,7 @@ typedef struct			s_room
 	int					num;
 	char				*name;
 	t_link				*links;
+	int					level; // 1 - start; 2 - second level, 3 - end
 	int					x;
 	int					y;
 }						t_room;
