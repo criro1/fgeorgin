@@ -342,11 +342,14 @@ void	ft_bfs(t_room *room, t_room curr_room, t_room start, t_room end, t_room pre
 	tmp = curr_room.links;
 	while (tmp)
 	{
-		if ((room[curr_room.links->link_num].x == prev_room.x
-			&& room[curr_room.links->link_num].y == prev_room.y) ||
-			(room[curr_room.links->link_num].x == start.x
-			&& room[curr_room.links->link_num].y == start.y))
-			tmp = tmp->next;
+		if ((room[tmp->link_num].x == prev_room.x
+			&& room[tmp->link_num].y == prev_room.y) ||
+			(room[tmp->link_num].x == start.x
+			&& room[tmp->link_num].y == start.y))
+			{
+				tmp = tmp->next;
+				continue ;
+			}
 		if (curr_room.x == end.x && curr_room.y == end.y)
 			break ;
 		else
