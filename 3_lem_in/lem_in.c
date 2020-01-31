@@ -143,7 +143,7 @@ void	the_links(t_map *map, char *line)
 	arr = ft_strsplit(line, '-');
 	n0 = ft_find_num(map->room, arr[0]);
 	n1 = ft_find_num(map->room, arr[1]);
-	if (arr[2] != NULL || n0 == -1 || n1 == -1)
+	if (arr[2] != NULL || n0 == -1 || n1 == -1 || n0 == n1)
 		ft_exit(map, line, 0);
 	make_link(map, n0, n1);
 	make_link(map, n1, n0);
@@ -240,7 +240,7 @@ void	ft_valid(t_map *map, int i)
 {
 	char	*line;
 
-	int fd = open("subject.map", O_RDONLY); //ewfkjoghruirejighqgrh0hrgqie
+	int fd = open("./archive/map"/*"subject.map"*/, O_RDONLY); //ewfkjoghruirejighqgrh0hrgqie
 	while (get_next_line(fd, &line))
 	{
 		if (map->data == 0 && ft_strchr("0123456789-", line[0]))
@@ -269,26 +269,7 @@ void	ft_valid(t_map *map, int i)
 // 	{
 // 		if (curr_room.x == end.x && curr_room.y == end.y)
 // 			break ;
-// 		else if (room[ft_find_hash(curr_room.links[curr_room.curr_link])].name)
-// 		else
-// 			ft_bfs(room, room[ft_find_hash(curr_room.links[curr_room.curr_link])], end, curr_room);
-// 		curr_room.curr_link--;
-// 	}
-// }
-
-// void	ft_solution(t_map *map, t_room *room)
-// {
-// 	ft_bfs(room, room[map->start], room[map->end], room[map->end]);
-// }
-
-// void	ft_bfs(t_room *room, t_room curr_room, t_room end, t_room prev_room)
-// {
-// 	printf("name = %s\n", curr_room.name);
-// 	while (curr_room.curr_link >= 0)
-// 	{
-// 		if (curr_room.x == end.x && curr_room.y == end.y)
-// 			break ;
-// 		else if (room[ft_find_hash(curr_room.links[curr_room.curr_link])].name)
+// 		// else if (room[ft_find_hash(curr_room.links[curr_room.curr_link])].name)
 // 		else
 // 			ft_bfs(room, room[ft_find_hash(curr_room.links[curr_room.curr_link])], end, curr_room);
 // 		curr_room.curr_link--;
