@@ -21,6 +21,12 @@ typedef struct			s_link
 	struct s_link		*next;
 }						t_link;
 
+typedef struct			s_way
+{
+	int					i;
+	t_link				*way;
+}						t_way;
+
 typedef struct			s_room
 {
 	int					num;
