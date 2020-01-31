@@ -17,6 +17,7 @@
 typedef struct			s_link
 {
 	int					link_num;
+	char				name[40];
 	struct s_link		*next;
 }						t_link;
 
