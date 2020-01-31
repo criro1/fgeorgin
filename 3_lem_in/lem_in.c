@@ -237,7 +237,6 @@ int		ft_coord(t_map *map, char *s1, char *s2)
 void	the_room(t_map *map, char *line, int sea, int *i)
 {
 	char	**arr;
-	// int		n;
 
 	printf("in the_room = %s\n", line);//fdsnioghueowijhgueijewr
 	arr = ft_strsplit(line, ' ');
@@ -280,6 +279,10 @@ void	ft_sharp(t_map *map, char **line, int fd, int *i)
 	if (!ft_strcmp(*line, "##start") || !ft_strcmp(*line, "##end"))
 	{
 		se = (*line)[2];
+		if (!ft_strcmp(*line, "##start"))
+			map->ok_s = 'O';
+		else if (!ft_strcmp(*line, "##end"))
+			map->ok_e = 'O';
 		free(*line);
 		get_next_line(fd, &(*line));//dwqqwdqwdqwdwqdqwdqwdqwdqw
 		if (*line[0] != 'L')
@@ -310,7 +313,7 @@ void	ft_valid(t_map *map, int i)
 			ft_exit(map, line, 0);
 		free(line);
 	}
-	if (map->data != 3 || !map->start || !map->end)
+	if (map->data != 3 || map->ok_s != 'O' || map->ok_e != 'O')
 		ft_exit(map, NULL, 0);
 }
 

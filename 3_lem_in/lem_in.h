@@ -46,7 +46,9 @@ typedef struct			s_map
 	int					data;/*0 - nothing 1 - number_of_ants 2 - the_rooms*/
 	int					num_ants;
 	int					start;
+	char				ok_s;
 	int					end;
+	char				ok_e;
 }						t_map;
 
 #endif
