@@ -154,11 +154,6 @@ void	make_link(t_map *map, int n0, int n1)
 
 	l = (t_link*)ft_memalloc(sizeof(t_link));
 	l->link_num = n1;
-	char *name_l = (char*)ft_memalloc(sizeof(char) * 10); //weffewfewfefewff
-	int k = -1; //fewrgwefefewfewfewfewfewefwefewffwefewefwfwfewefewefwfewff
-	while (++k < 10) ///wefeweffewfewfweewfweffewewfefewfewfeefwefwfewfewwef
-		name_l[k] = map->room[n1].name[k]; //wefefwefefewfefwwefefwefwefefwf
-	l->name = name_l; //fewroiroehfewhofehiefwihfweihofewoihfeifweewfewff
 	if (map->room[n0].links == NULL)
 	{
 		map->room[n0].links = l;
@@ -468,29 +463,16 @@ void	ft_valid(t_map *map, int i)
 //     printf("res = %d\n", num);
 // }
 
-// int 	*ft_fill_rooms(int *room_struct)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (i < room_struct[0])
-// 	{
-
-// 	}
-// }
-
 int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 {
 	int *room_struct;
-	// room_struct = ft_memalloc(sizeof(int) * 1);
 	int *count;
 	int i;
 	
-	// room_struct[0] = 2147483647;
 	i = 2147483647;
 	t_link *tmp;
-	// printf("name = %s\n", curr_room.name);
 	tmp = curr_room.links;
+	// printf("name = %s\n", curr_room.name);
 	while (tmp)
 	{
 		if ((map->room[tmp->link_num].x == prev_room.x
@@ -514,20 +496,21 @@ int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 			room_struct[0] = min;
 			room_struct[min + 1] = curr_room.num;
 			return (room_struct);
-			// way[0] = min;
-			// way[min + 1] = curr_room.num;
-			// return (way);
 		}
 		else
-			count = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
-		tmp = tmp->next;
-		if (count[0] < i)//room_struct[0])
 		{
-			// free(room_struct);
+			// if (count)
+			// 	free(count);
+			count = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
+		}
+		tmp = tmp->next;
+		if (count[0] < i)
+		{
+			// if (room_struct)
+			// 	free(room_struct);
 			i = count[0];
 			room_struct = count;
 			room_struct[min + 1] = curr_room.num;
-			// room_struct = ft_fill_rooms(count);
 		}
 		// printf("name = %s\n", curr_room.name);
 	}
