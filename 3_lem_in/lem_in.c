@@ -324,7 +324,7 @@ void	ft_valid(t_map *map, int i)
 {
 	char	*line;
 
-	int fd = open("map", O_RDONLY); //   ./archive/map subject.map
+	int fd = open("subject.map", O_RDONLY); //   ./archive/map subject.map
 	while (get_next_line(fd, &line))
 	{
 		if (map->data == 0 && ft_strchr("0123456789-", line[0]))
@@ -401,31 +401,95 @@ void	ft_valid(t_map *map, int i)
 // 	return (i);
 // }
 
-int 	ft_len(t_link *s)
-{
-	int res;
-
-	res = 0;
-	while (s->name)
-	{
-		res++;
-		s = s->next;
-	}
-	return (res);
-}
-
-t_way	*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
-{
-	t_way *room_struct = (t_way*)ft_memalloc(sizeof(t_way));
-	t_way *count;
-	t_way *way = (t_way*)ft_memalloc(sizeof(t_way));
-	room_struct->way = (t_link*)ft_memalloc(sizeof(t_link));
-	room_struct->way->link_num = curr_room.num;
-	room_struct->i = 9999999;
+// t_way	*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
+// {
+// 	t_way *room_struct = (t_way*)ft_memalloc(sizeof(t_way));
+// 	t_way *count;
+// 	t_way *way = (t_way*)ft_memalloc(sizeof(t_way));
+// 	room_struct->way = (t_link*)ft_memalloc(sizeof(t_link));
+// 	room_struct->way->link_num = curr_room.num;
+// 	room_struct->i = 9999999;
 	
-	// printf("name = %s\n", curr_room.name);
-	t_link *tmp;
+// 	// printf("name = %s\n", curr_room.name);
+// 	t_link *tmp;
 
+// 	tmp = curr_room.links;
+// 	while (tmp)
+// 	{
+// 		if ((map->room[tmp->link_num].x == prev_room.x
+// 			&& map->room[tmp->link_num].y == prev_room.y)
+// 			|| (map->room[tmp->link_num].level == 1))
+// 			{
+// 				if (curr_room.num == map->end)
+// 				{
+// 					way = (t_way*)ft_memalloc(sizeof(t_way));
+// 					way->i = min;
+// 					way->way = room_struct->way;
+// 					return (way);
+// 				}
+// 				tmp = tmp->next;
+// 				continue ;
+// 			}
+// 		if (curr_room.num == map->end)
+// 		{
+// 			way = (t_way*)ft_memalloc(sizeof(t_way));
+// 			way->i = min;
+// 			way->way = room_struct->way;
+// 			return (way);
+// 		}
+// 		else
+// 			count = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
+// 		tmp = tmp->next;
+// 		if (count->i < room_struct->i)
+// 		{
+// 			room_struct->i = count->i;
+// 			room_struct->way->next = count->way;
+// 		}
+// 		// printf("name = %s\n", curr_room.name);
+// 	}
+// 	return (room_struct);
+// }
+
+// void	ft_solution(t_map *map, t_room *room)
+// {
+// 	t_way *way;
+// 	way = ft_bfs(map, room[map->start], room[map->start], 0);
+//     while (way->way->next)
+// 	{
+// 		printf("%s\n", map->room[way->way->link_num].name);
+// 		way->way = way->way->next;
+// 	}
+// 	printf("%s\n", map->room[way->way->link_num].name);
+// }
+
+// void	ft_solution(t_map *map, t_room *room)
+// {
+// 	int num = ft_bfs(map, room[map->start], room[map->start], 0);
+//     printf("res = %d\n", num);
+// }
+
+// int 	*ft_fill_rooms(int *room_struct)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (i < room_struct[0])
+// 	{
+
+// 	}
+// }
+
+int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
+{
+	int *room_struct;
+	// room_struct = ft_memalloc(sizeof(int) * 1);
+	int *count;
+	int i;
+	
+	// room_struct[0] = 2147483647;
+	i = 2147483647;
+	t_link *tmp;
+	// printf("name = %s\n", curr_room.name);
 	tmp = curr_room.links;
 	while (tmp)
 	{
@@ -435,28 +499,35 @@ t_way	*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 			{
 				if (curr_room.num == map->end)
 				{
-					way = (t_way*)ft_memalloc(sizeof(t_way));
-					way->i = min;
-					way->way = room_struct->way;
-					return (way);
+					room_struct = ft_memalloc(sizeof(int) * min + 1);
+					room_struct[0] = min;
+					room_struct[min + 1] = curr_room.num;
+					return (room_struct);
 				}
 				tmp = tmp->next;
 				continue ;
 			}
 		if (curr_room.num == map->end)
 		{
-			way = (t_way*)ft_memalloc(sizeof(t_way));
-			way->i = min;
-			way->way = room_struct->way;
-			return (way);
+			// free(room_struct);
+			room_struct = ft_memalloc(sizeof(int) * min + 1);
+			room_struct[0] = min;
+			room_struct[min + 1] = curr_room.num;
+			return (room_struct);
+			// way[0] = min;
+			// way[min + 1] = curr_room.num;
+			// return (way);
 		}
 		else
 			count = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
 		tmp = tmp->next;
-		if (count->i < room_struct->i)
+		if (count[0] < i)//room_struct[0])
 		{
-			room_struct->i = count->i;
-			room_struct->way->next = count->way;
+			// free(room_struct);
+			i = count[0];
+			room_struct = count;
+			room_struct[min + 1] = curr_room.num;
+			// room_struct = ft_fill_rooms(count);
 		}
 		// printf("name = %s\n", curr_room.name);
 	}
@@ -465,21 +536,15 @@ t_way	*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 
 void	ft_solution(t_map *map, t_room *room)
 {
-	t_way *way;
+	int *way;
 	way = ft_bfs(map, room[map->start], room[map->start], 0);
-    while (way->way->next)
+    int i = 1;
+	while (i <= way[0] + 1)
 	{
-		printf("%s\n", map->room[way->way->link_num].name);
-		way->way = way->way->next;
+		printf("%s\n", map->room[way[i]].name);
+		i++;
 	}
-	printf("%s\n", map->room[way->way->link_num].name);
 }
-
-// void	ft_solution(t_map *map, t_room *room)
-// {
-// 	int num = ft_bfs(map, room[map->start], room[map->start], 0);
-//     printf("res = %d\n", num);
-// }
 
 int		main()
 {
