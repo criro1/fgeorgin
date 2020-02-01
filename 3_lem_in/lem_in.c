@@ -96,7 +96,6 @@ void	number_of_ants(t_map *map, char *line)
 {
 	if (check_x_y(line) != 0)
 	{
-		printf("in number_of_ants = %s\n", line);
 		map->num_ants = ft_atoi(line);
 		if (map->num_ants <= 0)
 			ft_exit(map, line, 0);
@@ -105,20 +104,6 @@ void	number_of_ants(t_map *map, char *line)
 	else
 		ft_exit(map, line, 0);
 }
-
-// int		ft_find_hash(char *s)
-// {
-// 	int i;
-// 	int res;
-// 	i = 0;
-// 	res = 1;
-// 	while (s[i] != '\0')
-// 	{
-// 		res = res * 7 + s[i];
-// 		i++;
-// 	}
-// 	return (res / i * 7);
-// }
 
 void	ft_free_split(char **arr)
 {
@@ -186,7 +171,6 @@ void	the_links(t_map *map, char *line)
 	int		n0;
 	int		n1;
 
-	// printf("in the_links = %s\n", line);
 	arr = ft_strsplit(line, '-');
 	n0 = ft_find_num(map->room, arr[0]);
 	n1 = ft_find_num(map->room, arr[1]);
@@ -255,7 +239,6 @@ void	the_room(t_map *map, char *line, int sea, int *i)
 {
 	char	**arr;
 
-	// printf("in the_room = %s\n", line);//fdsnioghueowijhgueijewr
 	arr = ft_strsplit(line, ' ');
 	if (arr[3] != NULL || !check_x_y(arr[1]) || !check_x_y(arr[2]) ||
 		ft_find_num(map->room, arr[0]) != -1 || !ft_coord(map, arr[1], arr[2]))
@@ -273,10 +256,7 @@ void	the_room(t_map *map, char *line, int sea, int *i)
 		map->room[(*i)].level = 1; //ddvswefwqdwqqdqwdwqdwq
 	}
 	else if (sea == 3)
-	{
 		map->end = (*i);
-		map->room[(*i)].level = 3; //dqwdwqdqwdqwdqw
-	}
 	(*i)++;
 	map->data = 2;
 	ft_free_split(arr);
@@ -298,7 +278,6 @@ void	ft_sharp(t_map *map, char **line, int fd, int *i)
 {
 	char se;
 
-	// printf("in ft_sharp = %s\n", *line);
 	if (!ft_strcmp(*line, "##start") || !ft_strcmp(*line, "##end"))
 	{
 		se = (*line)[2];
@@ -307,7 +286,7 @@ void	ft_sharp(t_map *map, char **line, int fd, int *i)
 		else if (!ft_strcmp(*line, "##end"))
 			map->ok_e = 'O';
 		free(*line);
-		get_next_line(fd, &(*line));//dwqqwdqwdqwdwqdqwdqwdqwdqw
+		get_next_line(fd, &(*line));
 		if (*line[0] != 'L')
 			the_room(map, *line, (se == 's' ? 1 : 3), &(*i));/* 1 - start, 2 - another, 3 - end*/
 		else
@@ -319,13 +298,13 @@ void	ft_valid(t_map *map, int i)
 {
 	char	*line;
 
-	int fd = open("subject.map", O_RDONLY); //   ./archive/map subject.map
+	int fd = open("subject.map", O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
 		if (map->data == 0 && ft_strchr("0123456789-", line[0]))
 			number_of_ants(map, line);
 		else if (line[0] != '\0' && line[0] == '#')
-			ft_sharp(map, &line, fd, &i); // fwegrrfwedfergethryjhtgrfgeth
+			ft_sharp(map, &line, fd, &i);
 		else if (line[0] != '\0' && line[0] != 'L'
 			&& (map->data == 3 || ft_strchr(line, '-')))
 			the_links(map, line);
@@ -396,6 +375,12 @@ void	ft_valid(t_map *map, int i)
 // 	return (i);
 // }
 
+// void	ft_solution(t_map *map, t_room *room)
+// {
+// 	int num = ft_bfs(map, room[map->start], room[map->start], 0);
+//     printf("res = %d\n", num);
+// }
+
 // t_way	*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 // {
 // 	t_way *room_struct = (t_way*)ft_memalloc(sizeof(t_way));
@@ -457,12 +442,6 @@ void	ft_valid(t_map *map, int i)
 // 	printf("%s\n", map->room[way->way->link_num].name);
 // }
 
-// void	ft_solution(t_map *map, t_room *room)
-// {
-// 	int num = ft_bfs(map, room[map->start], room[map->start], 0);
-//     printf("res = %d\n", num);
-// }
-
 int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 {
 	int *room_struct;
@@ -498,19 +477,16 @@ int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 			return (room_struct);
 		}
 		else
-		{
 			// if (count)
 			// 	free(count);
 			count = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
-		}
 		tmp = tmp->next;
 		if (count[0] < i)
 		{
-			// if (room_struct)
-			// 	free(room_struct);
 			i = count[0];
 			room_struct = count;
 			room_struct[min + 1] = curr_room.num;
+			// free(count);
 		}
 		// printf("name = %s\n", curr_room.name);
 	}
@@ -521,6 +497,7 @@ void	ft_solution(t_map *map, t_room *room)
 {
 	int *way;
 	way = ft_bfs(map, room[map->start], room[map->start], 0);
+	printf("min steps to end = %d\n", way[0]);
     int i = 1;
 	while (i <= way[0] + 1)
 	{
