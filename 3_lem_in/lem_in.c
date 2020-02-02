@@ -460,6 +460,7 @@ int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 			{
 				if (curr_room.num == map->end)
 				{
+					// free(room_struct);
 					room_struct = ft_memalloc(sizeof(int) * min + 1);
 					room_struct[0] = min;
 					room_struct[min + 1] = curr_room.num;
@@ -477,9 +478,11 @@ int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 			return (room_struct);
 		}
 		else
-			// if (count)
-			// 	free(count);
+		{
+			// if (count[0] && count[min])
+				// free(count);
 			count = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
+		}
 		tmp = tmp->next;
 		if (count[0] < i)
 		{
