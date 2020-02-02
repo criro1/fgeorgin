@@ -253,7 +253,7 @@ void	the_room(t_map *map, char *line, int sea, int *i)
 	if (sea == 1)
 	{
 		map->start = (*i);
-		map->room[(*i)].level = 1; //ddvswefwqdwqqdqwdwqdwq
+		map->room[(*i)].level = 1;
 	}
 	else if (sea == 3)
 		map->end = (*i);
@@ -442,58 +442,49 @@ void	ft_valid(t_map *map, int i)
 // 	printf("%s\n", map->room[way->way->link_num].name);
 // }
 
+int		*ft_ret_way(int *way, t_room curr_room, int min)
+{
+	free(way);
+	way = ft_memalloc(sizeof(int) * min + 1);
+	way[0] = min;
+	way[min + 1] = curr_room.num;
+	return (way);
+}
+
 int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 {
 	int *room_struct;
-	int *count;
-	int i;
-	
-	i = 2147483647;
+	int *way;
 	t_link *tmp;
+	
 	tmp = curr_room.links;
-	// printf("name = %s\n", curr_room.name);
+	way = ft_memalloc(sizeof(int) * 1);
+	way[0] = 2147483647;
 	while (tmp)
 	{
-		if ((map->room[tmp->link_num].x == prev_room.x
-			&& map->room[tmp->link_num].y == prev_room.y)
-			|| (map->room[tmp->link_num].level == 1))
+		if ((map->room[tmp->link_num].x == prev_room.x && map->room[tmp->
+		link_num].y == prev_room.y) || (map->room[tmp->link_num].level == 1))
 			{
 				if (curr_room.num == map->end)
-				{
-					// free(room_struct);
-					room_struct = ft_memalloc(sizeof(int) * min + 1);
-					room_struct[0] = min;
-					room_struct[min + 1] = curr_room.num;
-					return (room_struct);
-				}
+					return (ft_ret_way(way, curr_room, min));
 				tmp = tmp->next;
 				continue ;
 			}
 		if (curr_room.num == map->end)
+			return (ft_ret_way(way, curr_room, min));
+		else
+			room_struct = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
+		tmp = tmp->next;
+		if (room_struct[0] < way[0])
 		{
-			// free(room_struct);
-			room_struct = ft_memalloc(sizeof(int) * min + 1);
-			room_struct[0] = min;
-			room_struct[min + 1] = curr_room.num;
-			return (room_struct);
+			free(way);
+			way = room_struct;
+			way[min + 1] = curr_room.num;
 		}
 		else
-		{
-			// if (count[0] && count[min])
-				// free(count);
-			count = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
-		}
-		tmp = tmp->next;
-		if (count[0] < i)
-		{
-			i = count[0];
-			room_struct = count;
-			room_struct[min + 1] = curr_room.num;
-			// free(count);
-		}
-		// printf("name = %s\n", curr_room.name);
+			free(room_struct);
 	}
-	return (room_struct);
+	return (way);
 }
 
 void	ft_solution(t_map *map, t_room *room)
@@ -507,6 +498,7 @@ void	ft_solution(t_map *map, t_room *room)
 		printf("%s\n", map->room[way[i]].name);
 		i++;
 	}
+	free (way);
 }
 
 int		main()
