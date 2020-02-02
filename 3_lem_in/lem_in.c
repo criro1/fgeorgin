@@ -452,6 +452,18 @@ int		*ft_ret_way(int *way, t_room curr_room, int min)
 	return (way);
 }
 
+void	ft_if_rs_w(int **room_struct, int **way, t_room curr_room, int min)
+{
+	if ((*room_struct)[0] < (*way)[0])
+	{
+		free(*way);
+		(*way) = (*room_struct);
+		(*way)[min + 1] = curr_room.num;
+	}
+	else
+		free(*room_struct);
+}
+
 int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 {
 	int *room_struct;
@@ -464,7 +476,7 @@ int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 	while (tmp)
 	{
 		if ((map->room[tmp->link_num].x == prev_room.x && map->room[tmp->
-		link_num].y == prev_room.y) || (map->room[tmp->link_num].level == 1))
+			link_num].y == prev_room.y) || (map->room[tmp->link_num].level == 1))
 			{
 				if (curr_room.num == map->end)
 					return (ft_ret_way(way, curr_room, min));
@@ -476,14 +488,7 @@ int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 		else
 			room_struct = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
 		tmp = tmp->next;
-		if (room_struct[0] < way[0])
-		{
-			free(way);
-			way = room_struct;
-			way[min + 1] = curr_room.num;
-		}
-		else
-			free(room_struct);
+		ft_if_rs_w(&room_struct, &way, curr_room, min);
 	}
 	return (way);
 }
