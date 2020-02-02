@@ -430,6 +430,7 @@ void	ft_valid(t_map *map, int i)
 // 	return (room_struct);
 // }
 
+
 // void	ft_solution(t_map *map, t_room *room)
 // {
 // 	t_way *way;
