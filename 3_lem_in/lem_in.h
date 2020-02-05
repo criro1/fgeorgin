@@ -31,19 +31,10 @@ typedef struct			s_room
 	int					num;
 	char				*name;
 	t_link				*links;
-	int					level; // 1 - start; 2 - second level, 3 - end
+	int					level; // 1 - start; 2 - second level
 	int					x;
 	int					y;
 }						t_room;
-
-// typedef struct			s_room
-// {
-// 	char				*name;
-// 	char				**links;
-// 	int					curr_link;
-// 	int					x;
-// 	int					y;
-// }						t_room;
 
 typedef struct			s_map
 {
