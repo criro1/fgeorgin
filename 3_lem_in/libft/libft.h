@@ -142,24 +142,24 @@ void					join_num_of_c_to_buff(char c, int num);
 void					do_with_percent(t_par par);
 void					do_with_c(va_list arg, t_par par);
 void					do_with_s(va_list arg, t_par par);
-//char					*itos_with_base(intmax_t n, int base);
-//char					*uitos_with_base(uintmax_t n, int base, char flag_big);
+char					*itos_with_base(intmax_t n, int base);
+char					*uitos_with_base(uintmax_t n, int base, char flag_big);
 void					do_with_p_part_2(t_par par, char *s, int *len);
 void					do_with_p(va_list arg, t_par par);
-//intmax_t				get_value_of_i(va_list arg, t_par par);
-//char					set_i_sign(intmax_t i, t_par par);
+intmax_t				get_value_of_i(va_list arg, t_par par);
+char					set_i_sign(intmax_t i, t_par par);
 void					do_with_i_part_2(t_par par, char sign,
 							char *s, int *len);
 void					do_with_i(va_list arg, t_par par);
-//uintmax_t				get_value_of_oux(va_list arg, t_par par);
-//void					do_with_o_part_2(t_par par, uintmax_t o,
-//							char *s, int *len);
+uintmax_t				get_value_of_oux(va_list arg, t_par par);
+void					do_with_o_part_2(t_par par, uintmax_t o,
+							char *s, int *len);
 void					do_with_o(va_list arg, t_par par);
 void					do_with_x_part_2(t_par par, char *hash,
 							char *s, int *len);
 void					do_with_x(va_list arg, t_par par);
-//void					do_with_u_part_2(t_par par, uintmax_t u,
-//							char *s, int *len);
+void					do_with_u_part_2(t_par par, uintmax_t u,
+							char *s, int *len);
 void					do_with_u(va_list arg, t_par par);
 char					*create_str2(long int n);
 void					ft_reverse_str(char *s);
