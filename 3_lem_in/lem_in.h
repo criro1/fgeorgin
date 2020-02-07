@@ -42,4 +42,7 @@ typedef struct			s_map
 	int					min;
 }						t_map;
 
+void	ft_exit(t_map *map, char *line, int err);
+void	ft_valid(t_map *map, int i);
+
 #endif

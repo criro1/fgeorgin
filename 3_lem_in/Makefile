@@ -16,7 +16,7 @@ HEADER = lem_in.h
 
 LIBFT = ./libft/libft.a
 
-SRC = lem_in.c
+SRC = validation.c lem_in.c
 
 OBJ = $(SRC:.c=.o)
 
