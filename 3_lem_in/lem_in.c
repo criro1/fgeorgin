@@ -46,6 +46,56 @@
 //     printf("res = %d\n", num);
 // }
 
+int		*ft_ret_way(int **way, t_room curr_room, int min)
+{
+	free(*way);
+	(*way) = (int*)ft_memalloc(sizeof(int) * (min + 2));
+	(*way)[0] = min;
+	(*way)[min + 1] = curr_room.num;
+	return (*way);
+}
+
+void	ft_if_rs_w(int **room_struct, int **way, t_room curr_room, int min)
+{
+	if ((*room_struct)[0] < (*way)[0])
+	{
+		free(*way);
+		(*way) = (*room_struct);
+		(*way)[min + 1] = curr_room.num;
+	}
+	else
+		free(*room_struct);
+}
+
+int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
+{
+	int *room_struct;
+	int *way;
+	t_link *tmp;
+	
+	tmp = curr_room.links;
+	way = (int*)ft_memalloc(sizeof(int));
+	way[0] = 2147483647;
+	while (tmp)
+	{
+		if ((map->room[tmp->link_num].x == prev_room.x && map->room[tmp->
+			link_num].y == prev_room.y) || (map->room[tmp->link_num].level == 1))
+			{
+				if (curr_room.num == map->end)
+					return (ft_ret_way(&way, curr_room, min));
+				tmp = tmp->next;
+				continue ;
+			}
+		if (curr_room.num == map->end)
+			return (ft_ret_way(&way, curr_room, min));
+		else
+			room_struct = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
+		tmp = tmp->next;
+		ft_if_rs_w(&room_struct, &way, curr_room, min);
+	}
+	return (way);
+}
+
 void	ft_move_sh_w(t_map *map, t_map *sh_w, int *way)
 {
 	int 	i;
@@ -104,168 +154,12 @@ void	ft_del_1_2(t_map *map, t_map *sh_w, int *way, int *wout)
 			}
 	}
 }
-
-// int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
-// {
-// 	t_link *tmp;
-// 	int *way;
-// 	int *room_struct;
-// 	// int i;
-
-// 	// i = 2147483647;
-// 	tmp = curr_room.links;
-// 	way = (int*)malloc(sizeof(int) * 1);
-// 	way[0] = 2147483647;
-// 	while (tmp)
-// 	{
-// 		if ((map->room[tmp->link_num].x == prev_room.x && map->room[tmp->
-// 			link_num].y == prev_room.y) || (map->room[tmp->link_num].level == 1))
-// 			{
-// 				if (curr_room.num == map->end)
-// 				{
-// 					ft_memdel((void**)&way);
-// 					way = (int*)ft_memalloc(sizeof(int) * (min + 1));
-// 					way[0] = min;
-// 					way[min + 1] = curr_room.num;
-// 					return (way);
-// 				}
-// 				tmp = tmp->next;
-// 				continue ;
-// 			}
-// 		if (curr_room.num == map->end)
-// 		{
-// 			ft_memdel((void**)&way);
-// 			way = (int*)ft_memalloc(sizeof(int) * (min + 1));
-// 			way[0] = min;
-// 			way[min + 1] = curr_room.num;
-// 			return (way);
-// 		}
-// 		else
-// 			room_struct = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
-// 		tmp = tmp->next;
-// 		if (room_struct[0] < way[0])
-// 		{
-// 			ft_memdel((void**)&way);
-// 			way = room_struct;
-// 			// i = room_struct[0];
-// 			way[min + 1] = curr_room.num;
-// 		}
-// 		else
-// 			ft_memdel((void**)&room_struct);		
-// 	}
-// 	return (way);
-// }
-
-// void	ft_solution(t_map *map, t_room *room)
-// {
-// 	int *way;
-	
-// 	way = ft_bfs(map, room[map->start], room[map->start], 0);
-//     printf("min steps = %d\n", way[0]);
-// 	int i = 1;
-// 	while (i <= way[0] + 1)
-// 	{
-// 		printf("%s\n", map->room[way[i]].name);
-// 		i++;
-// 	}
-// 	// t_map *sh_w;
-// 	// sh_w = (t_map*)ft_memalloc(sizeof(t_map));
-// 	// i = 0;
-// 	// while (room[i].name)
-// 	// {
-// 	// 	sh_w->room[i].name = ft_strdup(room[i].name);
-// 	// 	sh_w->room[i].num = room[i].num;
-// 	// 	i++;
-// 	// }
-
-// 	// ft_move_sh_w(map, sh_w, way);
-
-// 	// int *wout;
-// 	// wout = ft_bfs(map, map->room[map->start], map->room[map->start], 0);
-// 	// ft_del_1_2(map, sh_w, way, wout);
-
-// 	// i = 0;
-// 	// while (map->room[i].name)
-// 	// {
-// 	// 	printf("I'm in room %s\n", map->room[i].name);
-// 	// 	while (map->room[i].links)
-// 	// 	{
-// 	// 		printf("%s\n", map->room[map->room[i].links->link_num].name);
-// 	// 		map->room[i].links = map->room[i].links->next;
-// 	// 	}-*
-// 	// 	i++;
-// 	// }
-
-// 	// free(wout);
-// 	// ft_exit(sh_w, NULL, 1);
-// 	free(way);
-// }
-
-int		*ft_ret_way(int **way, t_room curr_room, int min)
-{
-	free(*way);//ft_memdel((void**)&(*way));
-	(*way) = (int*)ft_memalloc(sizeof(int) * (min + 2));
-	(*way)[0] = min;
-	(*way)[min + 1] = curr_room.num;
-	return (*way);
-}
-
-void	ft_if_rs_w(int **room_struct, int **way, t_room curr_room, int min)
-{
-	if ((*room_struct)[0] < (*way)[0])
-	{
-		free(*way);//ft_memdel((void**)&(*way));
-		(*way) = (*room_struct);
-		(*way)[min + 1] = curr_room.num;
-	}
-	else
-		free(*room_struct);//ft_memdel((void**)&(*room_struct));
-}
-
-int		*ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
-{
-	int *room_struct;
-	int *way;
-	t_link *tmp;
-	
-	tmp = curr_room.links;
-	way = (int*)ft_memalloc(sizeof(int));
-	way[0] = 2147483647;
-	while (tmp)
-	{
-		if ((map->room[tmp->link_num].x == prev_room.x && map->room[tmp->
-			link_num].y == prev_room.y) || (map->room[tmp->link_num].level == 1))
-			{
-				if (curr_room.num == map->end)
-					return (ft_ret_way(&way, curr_room, min));
-				tmp = tmp->next;
-				continue ;
-			}
-		if (curr_room.num == map->end)
-			return (ft_ret_way(&way, curr_room, min));
-		else
-			room_struct = ft_bfs(map, map->room[tmp->link_num], curr_room, min + 1);
-		tmp = tmp->next;
-		ft_if_rs_w(&room_struct, &way, curr_room, min);
-	}
-	return (way);
-}
-
 void	ft_solution(t_map *map, t_room *room)
 {
 	int *way;
 	int i;
-
-	way = ft_bfs(map, room[map->start], room[map->start], 0);
-	i = 1;
-	// printf("min steps to end = %d\n", way[0]);
-	// while (i <= way[0] + 1)
-	// {
-	// 	printf("%s\n", map->room[way[i]].name);
-	// 	i++;
-	// }
-
 	t_map *sh_w;
+
 	sh_w = (t_map*)ft_memalloc(sizeof(t_map));
 	i = 0;
 	while (room[i].name)
@@ -274,6 +168,17 @@ void	ft_solution(t_map *map, t_room *room)
 		sh_w->room[i].num = room[i].num;
 		i++;
 	}
+	way = ft_bfs(map, room[map->start], room[map->start], 0);
+	// i = 1;
+	// printf("min steps to end = %d\n", way[0]);
+	// while (i <= way[0] + 1)
+	// {
+	// 	printf("%s\n", map->room[way[i]].name);
+	// 	i++;
+	// }
+
+	
+	
 
 	ft_move_sh_w(map, sh_w, way);
 
