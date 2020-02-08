@@ -263,6 +263,9 @@ void	ft_solution(t_map *map, t_room *room)
 		}
 		map->data = i;
 		ft_output(map, 1, all, 2);
+		while (i--)
+			free(all[i]);
+		free(all);
 	}
 	else
 	{
