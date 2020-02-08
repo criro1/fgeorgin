@@ -231,7 +231,7 @@ static void	the_room(t_map *map, char *line, int sea, int *i)
 	ft_free_split(arr);
 }
 
-static void	ft_sharp(t_map *map, char **line, int fd, int *i)
+static void		ft_sharp(t_map *map, char **line, int fd, int *i)
 {
 	char se;
 
