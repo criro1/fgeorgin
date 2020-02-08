@@ -268,7 +268,7 @@ int 	ft_output(t_map *map, int ants, int **ways, int room)
 		room++;
 	}
 	if (ants + 1 <= map->num_ants)
-		ft_output(map, ants + 1, ways, room - 1);
+		ft_output(map, ants + j, ways, room - 1);
 	return (1);
 }
 
