@@ -223,9 +223,59 @@ int		ft_output_into_bfs(t_map *map, int ants, int *way, int room)
 	return (1);
 }
 
+int		ft_output_1(t_map *map, int ants, int *way, int room, int j)
+{
+	while (ants <= map->num_ants && room <= way[0] + 1)
+	{
+		ft_printf("L%d-%s ", ants, map->room[way[room]].name);
+		if (room != 2)
+			if (ft_output_into_bfs(map, ants + j, way, room - 1) == 0
+				&& ants != map->min)
+				return (0);
+		if ((ants == map->num_ants && ants != 1) || (room == 2))
+			return (0);
+		if (room != way[0] + 1)
+			ft_putchar('\n');
+		room++;
+	}
+	if (ants + 1 <= map->num_ants)
+	{
+		ft_putchar('\n');
+		map->min = ants + 1;
+		ft_output_into_bfs(map, ants + 1, way, room - 1);
+	}
+	return (1);
+}
+
 int 	ft_output(t_map *map, int ants, int **ways, int room)
 {
-	
+	int i;
+	int j;
+	int *tmp;
+
+	i = 0;
+	while (ways[i])
+		i++;
+	tmp = (int*)ft_memalloc(sizeof(int) * i);
+	j = 1;
+	while (j < i)
+	{
+		tmp[j] = ways[j][0] - ways[j - 1][0] + tmp[j - 1];
+		j++;
+	}
+	while (ants <= map->num_ants && room <= ways[0][0] + 1)
+	{
+		j = 0;
+		while (j < i)
+		{
+			if (map->num_ants + 1 - ants > tmp[j])
+				ft_output_1(map, ants + j, ways[j], room, i);
+			j++;
+		}
+		ft_putchar('\n');
+		room++;
+	}
+	return (1);
 }
 
 void	ft_solution(t_map *map, t_room *room)
@@ -261,6 +311,7 @@ void	ft_solution(t_map *map, t_room *room)
 			all[i++] = wout;
 			ft_move_sh_w(map, sh_w, wout);
 		}
+		all[i] = NULL;
 		map->data = i;
 		ft_output(map, 1, all, 2);
 		while (i--)
