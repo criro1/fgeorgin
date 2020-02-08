@@ -14,15 +14,17 @@
 
 void	ft_exit(t_map *map, char *line, int err)
 {
-	int i;
+	int		i;
+	t_link	*tmp;
 
 	i = 0;
 	while (map->room[i].name)
 	{
 		while (map->room[i].links)
 		{
+			tmp = map->room[i].links->next;
 			free(map->room[i].links);
-			map->room[i].links = map->room[i].links->next;
+			map->room[i].links = tmp;
 		}
 		free(map->room[i].name);
 		i++;

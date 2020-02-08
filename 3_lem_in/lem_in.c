@@ -223,6 +223,11 @@ int		ft_output_into_bfs(t_map *map, int ants, int *way, int room)
 	return (1);
 }
 
+int 	ft_output(t_map *map, int ants, int **ways, int room)
+{
+	
+}
+
 void	ft_solution(t_map *map, t_room *room)
 {
 	int *way;
@@ -256,7 +261,8 @@ void	ft_solution(t_map *map, t_room *room)
 			all[i++] = wout;
 			ft_move_sh_w(map, sh_w, wout);
 		}
-		// ft_send_ants();
+		map->data = i;
+		ft_output(map, 1, all, 2);
 	}
 	else
 	{
