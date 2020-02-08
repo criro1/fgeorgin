@@ -229,22 +229,14 @@ int		ft_output_1(t_map *map, int ants, int *way, int room, int j)
 	{
 		ft_printf("L%d-%s ", ants, map->room[way[room]].name);
 		if (room != 2)
-			if (ft_output_into_bfs(map, ants + j, way, room - 1) == 0
+			if (ft_output_1(map, ants + j, way, room - 1, j) == 0
 				&& ants != map->min)
 				return (0);
 		if ((ants == map->num_ants && ants != 1) || (room == 2))
 			return (0);
-		if (room != way[0] + 1)
-			ft_putchar('\n');
 		room++;
 	}
-	if (ants + 1 <= map->num_ants)
-	{
-		ft_putchar('\n');
-		map->min = ants + 1;
-		ft_output_into_bfs(map, ants + 1, way, room - 1);
-	}
-	return (1);
+	return (0);
 }
 
 int 	ft_output(t_map *map, int ants, int **ways, int room)
@@ -275,6 +267,8 @@ int 	ft_output(t_map *map, int ants, int **ways, int room)
 		ft_putchar('\n');
 		room++;
 	}
+	if (ants + 1 <= map->num_ants)
+		ft_output(map, ants + 1, ways, room - 1);
 	return (1);
 }
 
