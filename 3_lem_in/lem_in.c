@@ -40,7 +40,6 @@ int		ft_bfs(t_map *map, t_room curr_room, t_room prev_room, int min)
 	}
 	return (i);
 }
-
 void	ft_solution(t_map *map, t_room *room)
 {
 	int num = ft_bfs(map, room[map->start], room[map->start], 0);
