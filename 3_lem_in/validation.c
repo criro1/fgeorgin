@@ -12,6 +12,17 @@
 
 #include "lem_in.h"
 
+void		ft_free_head(t_str *head)
+{
+	while (head)
+	{
+		if (head->line)
+			free(head->line);
+		free(head);
+		head = head->next;
+	}
+}
+
 void	ft_exit(t_map *map, char *line, int err)
 {
 	int		i;
@@ -32,13 +43,14 @@ void	ft_exit(t_map *map, char *line, int err)
 	free(map);
 	if (line)
 		free(line);
+	ft_free_head(map->head);
 	if (err == 0)
 		write(2, "Error\n", 6);
 	if (err == 0)
 		exit(0);
 }
 
-static long long		ft_atolli(const char *str)
+long long		ft_atolli(const char *str)
 {
 	int			i;
 	long int	num;
@@ -59,7 +71,7 @@ static long long		ft_atolli(const char *str)
 	return ((s == -1) ? -num : num);
 }
 
-static int			ft_num_of_digit(char *s)
+int			ft_num_of_digit(char *s)
 {
 	int i;
 	int res;
@@ -74,7 +86,7 @@ static int			ft_num_of_digit(char *s)
 	return (res);
 }
 
-static int		check_x_y(char *s)
+int		check_x_y(char *s)
 {
 	int i;
 
@@ -94,7 +106,7 @@ static int		check_x_y(char *s)
 	return (1);
 }
 
-static void	number_of_ants(t_map *map, char *line)
+void	number_of_ants(t_map *map, char *line)
 {
 	if (check_x_y(line) != 0)
 	{
@@ -107,9 +119,9 @@ static void	number_of_ants(t_map *map, char *line)
 		ft_exit(map, line, 0);
 }
 
-static void	ft_free_split(char **arr)
+void	ft_free_split(char **arr)
 {
-	int 	i;
+	int i;
 
 	i = 0;
 	while (arr[i])
@@ -120,7 +132,7 @@ static void	ft_free_split(char **arr)
 	free(arr);
 }
 
-static int		ft_find_num(t_room *room, char *arr_n)
+int		ft_find_num(t_room *room, char *arr_n)
 {
 	int 	i;
 
@@ -134,7 +146,7 @@ static int		ft_find_num(t_room *room, char *arr_n)
 	return (-1);
 }
 
-static void	make_link(t_map *map, int n0, int n1)
+void	make_link(t_map *map, int n0, int n1)
 {
 	t_link	*l;
 	t_link	*temp;
@@ -153,7 +165,7 @@ static void	make_link(t_map *map, int n0, int n1)
 	map->room[n0].links = temp;
 }
 
-static int		ft_if_l(t_map *map, int n0, int n1)
+int		ft_if_l(t_map *map, int n0, int n1)
 {
 	t_link *l;
 
@@ -167,7 +179,7 @@ static int		ft_if_l(t_map *map, int n0, int n1)
 	return (1);
 }
 
-static void	the_links(t_map *map, char *line)
+void	the_links(t_map *map, char *line)
 {
 	char	**arr;
 	int		n0;
@@ -188,7 +200,7 @@ static void	the_links(t_map *map, char *line)
 	ft_free_split(arr);
 }
 
-static int		ft_coord(t_map *map, char *s1, char *s2)
+int		ft_coord(t_map *map, char *s1, char *s2)
 {
 	int i;
 	int x;
@@ -206,7 +218,7 @@ static int		ft_coord(t_map *map, char *s1, char *s2)
 	return (1);
 }
 
-static void	the_room(t_map *map, char *line, int sea, int *i)
+void	the_room(t_map *map, char *line, int sea, int *i)
 {
 	char	**arr;
 
@@ -233,7 +245,7 @@ static void	the_room(t_map *map, char *line, int sea, int *i)
 	ft_free_split(arr);
 }
 
-static void		ft_sharp(t_map *map, char **line, int fd, int *i)
+void		ft_sharp(t_map *map, char **line, int fd, int *i)
 {
 	char se;
 
@@ -246,8 +258,11 @@ static void		ft_sharp(t_map *map, char **line, int fd, int *i)
 			map->ok_e = 'O';
 		free(*line);
 		get_next_line(fd, &(*line));
+		map->out->line = ft_strdup(*line);
+		map->out->next = (t_str*)ft_memalloc(sizeof(t_str));
+		map->out = map->out->next;
 		if (*line[0] != 'L')
-			the_room(map, *line, (se == 's' ? 1 : 3), &(*i));/* 1 - start, 2 - another, 3 - end*/
+			the_room(map, *line, (se == 's' ? 1 : 3), &(*i));
 		else
 			ft_exit(map, *line, 0);
 	}
@@ -260,6 +275,9 @@ void	ft_valid(t_map *map, int i)
 	int fd = open("subject.map", O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
+		map->out->line = ft_strdup(line);
+		map->out->next = (t_str*)ft_memalloc(sizeof(t_str));
+		map->out = map->out->next;
 		if (map->data == 0 && ft_strchr("0123456789-", line[0]))
 			number_of_ants(map, line);
 		else if (line[0] != '\0' && line[0] == '#')
@@ -269,7 +287,7 @@ void	ft_valid(t_map *map, int i)
 			the_links(map, line);
 		else if (line[0] != '\0' && line[0] != 'L'
 				&& (map->data == 1 || map->data == 2))
-			the_room(map, line, 2, &i);/* 0 - start, 1 - end, 2 - another */
+			the_room(map, line, 2, &i);
 		else
 			ft_exit(map, line, 0);
 		free(line);

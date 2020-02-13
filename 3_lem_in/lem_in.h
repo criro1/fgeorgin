@@ -14,6 +14,12 @@
 # define LEM_IN_H
 # include "libft/libft.h"
 
+typedef struct			s_str
+{
+	char				*line;
+	struct s_str		*next;
+}						t_str;
+
 typedef struct			s_link
 {
 	int					link_num;
@@ -30,11 +36,20 @@ typedef struct			s_room
 	int					y;
 }						t_room;
 
+typedef struct			s_w_and_d
+{
+	int					**ways;
+	int					*diff;
+	int					diff_len;
+}						t_w_and_d;
+
 typedef struct			s_map
 {
-	t_room				room[1000000];
+	t_room				room[10000];
 	int					data;/*0 - nothing 1 - number_of_ants 2 - the_rooms*/
 	int					num_ants;
+	t_str				*out;
+	t_str				*head;
 	int					start;
 	char				ok_s;
 	int					end;
@@ -42,7 +57,20 @@ typedef struct			s_map
 	int					min;
 }						t_map;
 
-void	ft_exit(t_map *map, char *line, int err);
-void	ft_valid(t_map *map, int i);
+void			ft_free_head(t_str *head);
+void			ft_exit(t_map *map, char *line, int err);
+long long		ft_atolli(const char *str);
+int				ft_num_of_digit(char *s);
+int				check_x_y(char *s);
+void			number_of_ants(t_map *map, char *line);
+void			ft_free_split(char **arr);
+int				ft_find_num(t_room *room, char *arr_n);
+void			make_link(t_map *map, int n0, int n1);
+int				ft_if_l(t_map *map, int n0, int n1);
+void			the_links(t_map *map, char *line);
+int				ft_coord(t_map *map, char *s1, char *s2);
+void			the_room(t_map *map, char *line, int sea, int *i);
+void			ft_sharp(t_map *map, char **line, int fd, int *i);
+void			ft_valid(t_map *map, int i);
 
 #endif
