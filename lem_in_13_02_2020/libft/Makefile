@@ -24,7 +24,7 @@ ft_strclr.c ft_strcmp.c ft_strcpy.c ft_strdel.c ft_strdup.c ft_strequ.c \
 ft_striter.c ft_striteri.c ft_strjoin.c ft_strlcat.c ft_strlen.c ft_strmap.c \
 ft_strmapi.c ft_strncat.c ft_strncmp.c ft_strncpy.c ft_strnequ.c ft_strnew.c \
 ft_strnstr.c ft_strrchr.c ft_strsplit.c ft_strstr.c ft_strsub.c ft_strtrim.c \
-ft_tolower.c ft_toupper.c get_next_line.c ft_strnumchr.c ft_printf.c \
+ft_tolower.c ft_toupper.c get_next_line.c ft_strnumchr.c #ft_printf.c \
 ft_printf_do_with_f.c ft_printf_do_with_i.c ft_printf_do_with_o_get_oux.c \
 ft_printf_do_with_per_c_s_p.c ft_printf_do_with_ux_and_par_to_beg.c \
 ft_printf_f_get_strings.c ft_printf_f_m_and_str_plus.c \

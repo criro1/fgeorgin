@@ -272,7 +272,7 @@ int		ft_output_into_bfs(t_map *map, int ants, int *way, int room)
 {
 	while (ants <= map->num_ants && room <= way[0] + 1)
 	{
-		ft_printf("L%d-%s ", ants, map->room[way[room]].name);
+		printf("L%d-%s ", ants, map->room[way[room]].name);//sadkjdhasuidsauidhuashduiashduiashduidh
 		if (room != 2)
 			if (ft_output_into_bfs(map, ants + 1, way, room - 1) == 0
 				&& ants != map->min)
@@ -447,25 +447,26 @@ t_w_and_d	*ft_do_ways_diff(t_map *map, t_map *sh_w)
 	return (st);
 }
 
-void 	ft_add_ant(t_link *fin_j, int ant)
+void 	ft_add_ant(t_link **fin_j, int ant)
 {
 	t_link *tmp;
 
-	if (fin_j->link_num == 0)
+	if (!(*fin_j))//fin_j->link_num == 0)
 	{
-		fin_j->link_num = ant;
-		fin_j->next = NULL;
+		(*fin_j) = (t_link*)ft_memalloc(sizeof(t_link));
+		(*fin_j)->link_num = ant;
+		(*fin_j)->next = NULL;
 	}
-	else if (fin_j && !(fin_j->next))
+	else if ((*fin_j) && !((*fin_j)->next))
 	{
 		tmp = (t_link*)ft_memalloc(sizeof(t_link));
 		tmp->link_num = ant;
 		tmp->next = NULL;
-		fin_j->next = tmp;
+		(*fin_j)->next = tmp;
 	}
-	else if (fin_j && fin_j->next)
+	else if ((*fin_j) && (*fin_j)->next)
 	{
-		tmp = fin_j;
+		tmp = (*fin_j);
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = (t_link*)ft_memalloc(sizeof(t_link));
@@ -478,14 +479,14 @@ void	ft_output(t_map *map, t_link *fin_j, int room, int *way)
 {
 	while (fin_j && fin_j->link_num <= map->num_ants && (room <= way[0] + 1 && room >= 2))
 	{
-		ft_printf("L%d-%s ", fin_j->link_num, map->room[way[room]].name);
+		printf("L%d-%s ", fin_j->link_num, map->room[way[room]].name);
 		fin_j = fin_j->next;
 		room--;
-		ft_output(map, fin_j, room, way);
+		// ft_output(map, fin_j, room, way);
 	}
 }
 
-void	ft_print_ants(t_map *map, t_link *fin, t_w_and_d *st, int *room)
+void	ft_print_ants(t_map *map, t_link **fin, t_w_and_d *st, int *room)
 {
 	int j;
 	int res;
@@ -494,29 +495,31 @@ void	ft_print_ants(t_map *map, t_link *fin, t_w_and_d *st, int *room)
 	while (res < st->diff_len)
 	{
 		j = 0;
+		res = 0;
 		while (j < st->diff_len)
 		{
-			if (&(fin[j]) && (fin[j]).link_num != 0)
-				ft_output(map, &(fin[j]),room[j], st->ways[j]);
+			if (fin[j])// && (fin[j])->link_num != 0)
+				ft_output(map, fin[j], room[j], st->ways[j]);
+			if (room[j] == st->ways[j][0] + 1)
+				fin[j] = fin[j]->next;
 			else
-			{
+				room[j]++;
+			if (!fin[j])
 				res++;
-				&(fin[j]) = &(fin[j]).next;
-			}
-			room[j]++;
 			j++;
 		}
-		ft_putchar('\n');
+		res++;
+		printf("\n");
 	}
 }
 
 t_link	*ft_ants_to_ways(t_map *map, t_w_and_d *st)
 {
-	t_link	*fin;
+	t_link	**fin;
 	int 	ant;
 	int		j;
 
-	fin = (t_link*)ft_memalloc(sizeof(t_link) * st->diff_len);
+	fin = (t_link**)ft_memalloc(sizeof(t_link*) * st->diff_len);
 	ant = 1;
 	while (ant <= map->num_ants)
 	{
@@ -537,8 +540,8 @@ t_link	*ft_ants_to_ways(t_map *map, t_w_and_d *st)
 	while (j--)
 		room[j] = 2;
 	ft_print_ants(map, fin, st, room);
-	free(fin);
-	return (fin);
+	// free(fin);
+	return (*fin);
 }
 
 void	ft_solution(t_map *map, t_room *room)
@@ -547,7 +550,7 @@ void	ft_solution(t_map *map, t_room *room)
 	t_map	*sh_w;
 	t_map	*tmp;
 	t_w_and_d	*st;
-	t_link *fin;
+	// t_link *fin;
 
 	way = ft_bfs(map, room[map->start], room[map->start], 0);
 	if (map->num_ants > way[0])
@@ -556,7 +559,7 @@ void	ft_solution(t_map *map, t_room *room)
 		tmp = ft_copy_map(map);
 		ft_if_n_ways(map, sh_w, tmp);
 		st = ft_do_ways_diff(map, sh_w);
- 		fin = ft_ants_to_ways(map, st);
+ 		/*fin = */ft_ants_to_ways(map, st);
 		ft_exit(sh_w, NULL, 1);
 		ft_exit(tmp, NULL, 1);
 
@@ -592,7 +595,7 @@ void	ft_solution(t_map *map, t_room *room)
 	// 	}
 	// 	i++;
 	// }
-	free(way);
+	// free(way);
 }
 
 int		main(void)
