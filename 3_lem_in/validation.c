@@ -25,7 +25,7 @@ void		number_of_ants(t_map *map, char *line)
 		ft_exit(map, line, 0);
 }
 
-void		ft_sharp(t_map *map, char **line, int fd, int *i)
+void		ft_sharp(t_map *map, char **line, int *i)
 {
 	char se;
 
@@ -37,7 +37,7 @@ void		ft_sharp(t_map *map, char **line, int fd, int *i)
 		else if (!ft_strcmp(*line, "##end"))
 			map->ok_e = 'O';
 		free(*line);
-		get_next_line(fd, &(*line));
+		get_next_line(STDIN_FILENO, &(*line));
 		map->out->line = ft_strdup(*line);
 		map->out->next = (t_str*)ft_memalloc(sizeof(t_str));
 		map->out = map->out->next;
@@ -104,10 +104,8 @@ void		the_room(t_map *map, char *line, int sea, int *i)
 void		ft_valid(t_map *map, int i)
 {
 	char	*line;
-	int		fd;
 
-	fd = open("subject.map", O_RDONLY);
-	while (get_next_line(fd, &line))
+	while (get_next_line(STDIN_FILENO, &line))
 	{
 		map->out->line = ft_strdup(line);
 		map->out->next = (t_str*)ft_memalloc(sizeof(t_str));
@@ -115,7 +113,7 @@ void		ft_valid(t_map *map, int i)
 		if (map->data == 0 && ft_strchr("0123456789-", line[0]))
 			number_of_ants(map, line);
 		else if (line[0] != '\0' && line[0] == '#')
-			ft_sharp(map, &line, fd, &i);
+			ft_sharp(map, &line, &i);
 		else if (line[0] != '\0' && line[0] != 'L'
 				&& (map->data == 3 || ft_strchr(line, '-')))
 			the_links(map, line);
