@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnumchr.c                                     :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/08 23:18:07 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/12/08 23:18:15 by fgeorgin         ###   ########.fr       */
+/*   Created: 2019/04/08 20:08:34 by fgeorgin          #+#    #+#             */
+/*   Updated: 2019/04/25 14:50:58 by fgeorgin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strnumchr(char *str, char c)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	int i;
-	int res;
+	size_t i;
 
-	i = 0;
-	res = 0;
-	while (str[i] != '\0')
+	if (src == dst)
+		return (dst);
+	else if (src < dst)
 	{
-		if (str[i] == c)
-			res++;
-		i++;
+		i = len;
+		while (i > 0)
+		{
+			((unsigned char*)dst)[i - 1] = ((unsigned char*)src)[i - 1];
+			i--;
+		}
 	}
-	return (res);
+	else
+	{
+		i = 0;
+		while (i < len)
+		{
+			((unsigned char*)dst)[i] = ((unsigned char*)src)[i];
+			i++;
+		}
+	}
+	return (dst);
 }

@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnumchr.c                                     :+:      :+:    :+:   */
+/*   ft_lstadd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/08 23:18:07 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/12/08 23:18:15 by fgeorgin         ###   ########.fr       */
+/*   Created: 2019/05/02 17:14:46 by fgeorgin          #+#    #+#             */
+/*   Updated: 2019/05/02 17:42:13 by fgeorgin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strnumchr(char *str, char c)
+void	ft_lstadd(t_list **alst, t_list *new)
 {
-	int i;
-	int res;
-
-	i = 0;
-	res = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			res++;
-		i++;
-	}
-	return (res);
+	if (alst == NULL || new == NULL)
+		return ;
+	new->next = (*alst);
+	(*alst) = new;
 }

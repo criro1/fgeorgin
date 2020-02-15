@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnumchr.c                                     :+:      :+:    :+:   */
+/*   ft_memdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/08 23:18:07 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/12/08 23:18:15 by fgeorgin         ###   ########.fr       */
+/*   Created: 2019/04/13 20:36:41 by fgeorgin          #+#    #+#             */
+/*   Updated: 2019/05/01 20:37:18 by fgeorgin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strnumchr(char *str, char c)
+void	ft_memdel(void **ap)
 {
-	int i;
-	int res;
-
-	i = 0;
-	res = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			res++;
-		i++;
-	}
-	return (res);
+	if (ap == NULL)
+		return ;
+	free(*ap);
+	*ap = NULL;
 }

@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnumchr.c                                     :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: forange- <forange-@student.fr.42>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/08 23:18:07 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/12/08 23:18:15 by fgeorgin         ###   ########.fr       */
+/*   Created: 2019/04/08 18:09:45 by fgeorgin          #+#    #+#             */
+/*   Updated: 2019/07/08 17:41:53 by forange-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strnumchr(char *str, char c)
+int		ft_toupper(int b)
 {
-	int i;
-	int res;
-
-	i = 0;
-	res = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			res++;
-		i++;
-	}
-	return (res);
+	if (b >= 97 && b <= 122)
+		return (b - 32);
+	else
+		return (b);
 }

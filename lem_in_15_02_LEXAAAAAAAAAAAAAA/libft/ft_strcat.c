@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnumchr.c                                     :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/08 23:18:07 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/12/08 23:18:15 by fgeorgin         ###   ########.fr       */
+/*   Created: 2019/04/08 20:41:01 by fgeorgin          #+#    #+#             */
+/*   Updated: 2019/04/15 21:12:19 by fgeorgin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strnumchr(char *str, char c)
+char	*ft_strcat(char *s1, const char *s2)
 {
-	int i;
-	int res;
+	size_t	i;
+	size_t	s;
 
 	i = 0;
-	res = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == c)
-			res++;
+	s = 0;
+	while (s1[i] != '\0')
 		i++;
+	s = 0;
+	while (s2[s] != '\0')
+	{
+		s1[i + s] = s2[s];
+		s++;
 	}
-	return (res);
+	s1[i + s] = '\0';
+	return (s1);
 }

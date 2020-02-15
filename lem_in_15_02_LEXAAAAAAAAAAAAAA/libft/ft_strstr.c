@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnumchr.c                                     :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/08 23:18:07 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/12/08 23:18:15 by fgeorgin         ###   ########.fr       */
+/*   Created: 2019/04/09 20:54:24 by fgeorgin          #+#    #+#             */
+/*   Updated: 2019/04/25 19:24:35 by fgeorgin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strnumchr(char *str, char c)
+char	*ft_strstr(const char *haystack, const char *needle)
 {
 	int i;
-	int res;
+	int j;
 
 	i = 0;
-	res = 0;
-	while (str[i] != '\0')
+	if (needle[0] == '\0')
+		return ((char*)haystack);
+	while (haystack[i] != '\0')
 	{
-		if (str[i] == c)
-			res++;
+		if (haystack[i] == needle[0])
+		{
+			j = 0;
+			while (haystack[i + j] == needle[j] && needle[j] != '\0')
+				j++;
+			if (needle[j] == '\0')
+				return ((char*)haystack + i);
+		}
 		i++;
 	}
-	return (res);
+	return (0);
 }

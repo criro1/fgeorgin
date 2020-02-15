@@ -1,29 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnumchr.c                                     :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/08 23:18:07 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/12/08 23:18:15 by fgeorgin         ###   ########.fr       */
+/*   Created: 2019/05/02 17:25:18 by fgeorgin          #+#    #+#             */
+/*   Updated: 2019/05/02 18:22:24 by fgeorgin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strnumchr(char *str, char c)
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	int i;
-	int res;
+	t_list *p;
+	t_list *begin;
 
-	i = 0;
-	res = 0;
-	while (str[i] != '\0')
+	if (lst == NULL)
+		return (NULL);
+	begin = f(lst);
+	if (begin == NULL)
+		return (NULL);
+	p = begin;
+	lst = lst->next;
+	while (lst != NULL)
 	{
-		if (str[i] == c)
-			res++;
-		i++;
+		p->next = f(lst);
+		if (p->next == NULL)
+		{
+			free(p);
+			return (NULL);
+		}
+		lst = lst->next;
+		p = p->next;
 	}
-	return (res);
+	return (begin);
 }

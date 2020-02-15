@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnumchr.c                                     :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/08 23:18:07 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/12/08 23:18:15 by fgeorgin         ###   ########.fr       */
+/*   Created: 2019/04/08 18:15:29 by fgeorgin          #+#    #+#             */
+/*   Updated: 2019/04/26 21:50:16 by fgeorgin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strnumchr(char *str, char c)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	int i;
-	int res;
+	size_t i;
 
 	i = 0;
-	res = 0;
-	while (str[i] != '\0')
+	while (i < len)
 	{
-		if (str[i] == c)
-			res++;
+		((char*)b)[i] = (unsigned char)c;
 		i++;
 	}
-	return (res);
+	return (b);
 }

@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnumchr.c                                     :+:      :+:    :+:   */
+/*   ft_strmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/08 23:18:07 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/12/08 23:18:15 by fgeorgin         ###   ########.fr       */
+/*   Created: 2019/04/13 20:57:39 by fgeorgin          #+#    #+#             */
+/*   Updated: 2019/04/25 20:14:06 by fgeorgin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strnumchr(char *str, char c)
+char	*ft_strmap(char const *s, char (*f)(char))
 {
-	int i;
-	int res;
+	char	*str;
+	size_t	i;
 
+	if (s == NULL)
+		return (NULL);
+	str = ft_strnew(ft_strlen(s));
+	if (str == NULL)
+		return (NULL);
 	i = 0;
-	res = 0;
-	while (str[i] != '\0')
+	while (i < ft_strlen(s))
 	{
-		if (str[i] == c)
-			res++;
+		str[i] = f(s[i]);
 		i++;
 	}
-	return (res);
+	return (str);
 }

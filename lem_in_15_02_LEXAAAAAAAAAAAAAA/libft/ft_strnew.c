@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnumchr.c                                     :+:      :+:    :+:   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/08 23:18:07 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/12/08 23:18:15 by fgeorgin         ###   ########.fr       */
+/*   Created: 2019/04/13 20:39:20 by fgeorgin          #+#    #+#             */
+/*   Updated: 2019/05/02 23:43:40 by fgeorgin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strnumchr(char *str, char c)
+char	*ft_strnew(size_t size)
 {
-	int i;
-	int res;
+	char	*str;
+	size_t	i;
 
+	if (size == (size_t)-1)
+		return (NULL);
+	str = (char*)malloc(sizeof(char) * size + 1);
+	if (str == NULL)
+		return (NULL);
 	i = 0;
-	res = 0;
-	while (str[i] != '\0')
+	while (i <= size)
 	{
-		if (str[i] == c)
-			res++;
+		str[i] = '\0';
 		i++;
 	}
-	return (res);
+	return (str);
 }

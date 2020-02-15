@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnumchr.c                                     :+:      :+:    :+:   */
+/*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/08 23:18:07 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/12/08 23:18:15 by fgeorgin         ###   ########.fr       */
+/*   Created: 2019/05/01 20:46:22 by fgeorgin          #+#    #+#             */
+/*   Updated: 2019/05/02 17:42:26 by fgeorgin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strnumchr(char *str, char c)
+void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
 {
-	int i;
-	int res;
+	t_list *p;
 
-	i = 0;
-	res = 0;
-	while (str[i] != '\0')
+	if (alst == NULL || (*alst) == NULL)
+		return ;
+	while ((*alst) != NULL)
 	{
-		if (str[i] == c)
-			res++;
-		i++;
+		p = (*alst)->next;
+		del((*alst)->content, (*alst)->content_size);
+		free(*alst);
+		(*alst) = p;
 	}
-	return (res);
+	(*alst) = NULL;
 }

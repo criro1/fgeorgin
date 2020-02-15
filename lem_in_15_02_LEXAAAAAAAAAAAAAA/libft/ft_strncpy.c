@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnumchr.c                                     :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgeorgin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/08 23:18:07 by fgeorgin          #+#    #+#             */
-/*   Updated: 2019/12/08 23:18:15 by fgeorgin         ###   ########.fr       */
+/*   Created: 2019/04/08 20:36:19 by fgeorgin          #+#    #+#             */
+/*   Updated: 2019/04/25 15:38:37 by fgeorgin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strnumchr(char *str, char c)
+char	*ft_strncpy(char *dst, const char *src, size_t len)
 {
-	int i;
-	int res;
+	size_t i;
 
 	i = 0;
-	res = 0;
-	while (str[i] != '\0')
+	while (i != len && src[i] != '\0')
 	{
-		if (str[i] == c)
-			res++;
+		dst[i] = src[i];
 		i++;
 	}
-	return (res);
+	while (i < len)
+	{
+		dst[i] = '\0';
+		i++;
+	}
+	return (dst);
 }
