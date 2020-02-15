@@ -124,6 +124,7 @@ void		ft_valid(t_map *map, int i)
 			ft_exit(map, line, 0);
 		free(line);
 	}
-	if (map->data != 3 || map->ok_s != 'O' || map->ok_e != 'O' || i < 2)
+	if (map->data != 3 || map->ok_s != 'O' || map->ok_e != 'O' || i < 2
+		|| map->num_ants == 0)
 		ft_exit(map, NULL, 0);
 }

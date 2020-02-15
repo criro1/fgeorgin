@@ -10,7 +10,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "/Users/fgeorgin/fgeorgin/3_lem_in/lem-in",
-            "args": [],
+            "args": [" < subject.map"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
