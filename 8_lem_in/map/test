@@ -1,0 +1,30 @@
+30
+##start
+A 0 4
+B 2 6
+C 5 6
+D 6 4
+E 3 4
+F 5 2
+G 8 2
+X 2 8
+Y 5 8
+Z 8 8
+W 8 6
+##end
+H 9 4
+A-B
+B-C
+C-D
+D-E
+E-F
+F-D
+F-G
+G-H
+H-D
+A-E
+A-X
+X-Y
+Y-Z
+Z-W
+W-H
