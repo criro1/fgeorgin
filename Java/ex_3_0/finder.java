@@ -16,15 +16,14 @@ class finder
     {
         int n;
 
-        n = Math.round((st + end) / 2);
+        n = (st + end) / 2;
 
-        if (arr[n] > num)
-            return (ft_binary_search(arr, num, st, n));
-        else if (arr[n] < num)
-            return (ft_binary_search(arr, num, n, end));
-        else if (arr[n] == num)
+        if (arr[n] == num)
             return (n);
-        return (n);
+        else if (arr[n] > num)
+            return (ft_binary_search(arr, num, st, n - 1));
+        else
+            return (ft_binary_search(arr, num, n + 1, end));
     }
 
     static int[] ft_generate_arr(int len)
@@ -44,13 +43,14 @@ class finder
 
         Arrays.sort(arr);
 
-        // long time = System.currentTimeMillis();
-        System.out.println(ft_brute_force(arr, 2223));
+        long time_s = System.currentTimeMillis();
+        ft_brute_force(arr, 2223);
+        long time_e = System.currentTimeMillis();
+        System.out.println("brute_force time = " + (time_e - time_s));
 
-        // System.out.println(System.currentTimeMillis() - time);
-
-        // time = System.currentTimeMillis();
-        System.out.println(ft_binary_search(arr, 2223, 0, arr.length));
-        // System.out.println(System.currentTimeMillis() - time);
+        time_s = System.currentTimeMillis();
+        ft_binary_search(arr, 2223, 0, arr.length);
+        time_e = System.currentTimeMillis();
+        System.out.println("binery search time = " + (time_e - time_s));
     }
 }
