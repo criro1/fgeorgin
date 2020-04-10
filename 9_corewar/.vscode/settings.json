@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "corewar.h": "c",
+        "cstdlib": "c"
+    }
+}

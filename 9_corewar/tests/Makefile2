@@ -1,0 +1,170 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: wmaykit <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/12/27 21:46:37 by wmaykit           #+#    #+#              #
+#    Updated: 2020/01/24 12:26:00 by wmaykit          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# name programs
+COREWAR	= corewar
+ASM 	= asm
+
+PATH_LIBFT 							= ./libraries/libft
+PATH_LIBFT_PRINTF					= ./libraries/libftprintf
+PATH_SCRIPTS						= ./scripts/make_scripts
+PATH_OBJECTS						= ./objects
+PATH_SRCS_COREWAR					= ./source/corewar
+
+################################################################################
+#                      IS NEW												   #
+################################################################################
+
+PATH_ARGS							= ./source/corewar/arguments
+PATH_SRCS_COREWAR_PLAYERS			= ./source/corewar/validations/players
+PATH_SRCS_PARSING_ARG_COREWAR		= ./source/corewar/parsing/arguments
+PATH_SRCS_VALIDATION_FILE_COREWAR	= ./source/corewar/parsing/file_player
+PATH_SRCS_ERROR_HANDLING_COREWAR	= ./source/corewar/error_handling
+
+################################################################################
+PATH_HEDES						= ./include
+
+LIBFT				= $(PATH_LIBFT)/libft.a
+LIBFTPRINTF			= $(PATH_LIBFT_PRINTF)/libftprintf.a
+
+HEADER_COREWAR		= $(PATH_HEDES)/corewar.h
+HEADER_OP			= $(PATH_HEDES)/op.h
+HEADERS_COREWAR		= $(HEADER_COREWAR) $(HEADER_OP)
+
+################################################################################
+#                      IS NEW												   #
+################################################################################
+PATH_DEBUG_ARGS			= $(addprefix $(PATH_ARGS)/, debug)
+PATH_VALID_ARGS			= $(addprefix $(PATH_ARGS)/, validations)
+PATH_PARSING_ARGS		= $(addprefix $(PATH_ARGS)/, parsing)
+PATH_INTERFACE_ARGS		= $(addprefix $(PATH_ARGS)/, interface)
+PATH_CONSTRDESTR_ARGS	= $(addprefix $(PATH_ARGS)/, constr_and_destr)
+PATHS_SRCS_COREWAR		= $(PATH_CONSTRDESTR_ARGS)
+
+SRCS_DEBUG_ARGS			= 
+SRCS_VALID_ARGS			=
+SRCS_PARSING_ARGS		=
+SRCS_INTERFACE_ARGS		=
+SRCS_CONSTRDESTR_ARGS	= destroy_args_obj.c new_args_obj.c
+
+OBJS_ARGS			= $(SRCS_DEBUG_ARGS:.c=.o) $(SRCS_VALID_ARGS:.c=.o) \
+					  $(SRCS_PARSING_ARGS:.c=.o) \
+					  $(SRCS_INTERFACE_ARGS:.c=.o) \
+					  $(SRCS_CONSTRDESTR_ARGS:.c=.o)
+OBJS_ARGS_WITH_PATH	= $(addprefix $(PATH_CONSTRDESTR_ARGS)/, $(SRCS_CONSTRDESTR_ARGS:.c=.o))
+
+DEBUG_ARGS			= $(addprefix $(PATH_DEBUG_ARGS)/, $(SRCS_DEBUG_ARGS))
+VALID_ARGS			= $(addprefix $(PATH_VALID_ARGS)/, $(SRCS_VALID_ARGS))
+PARSUNG_ARGS		= $(addprefix $(PATH_PARSING_ARGS)/, $(SRCS_PARSING_ARGS))
+INTERFACE_ARGS		= $(addprefix $(PATH_INTERFACE_ARGS)/, $(SRCS_INTERFACE_ARGS))
+CONSTRDESTR_ARGS	= $(addprefix $(PATH_CONSTRDESTR_ARGS)/, $(SRCS_CONSTRDESTR_ARGS))
+
+
+SRCS_ARGS	= $(VALID_ARGS) $(INTERFACE_ARGS) $(CONSTRDESTR_ARGS) \
+			  $(PARSING_ARGS) $(DEBUG_ARGS)
+
+SRCS_ERROR_HANDLING	= ft_exit.c save_error_to_log.c
+																			   
+################################################################################
+
+SRCS_COREWAR 		= corewar.c main.c print_usage.c ft_exit.c \
+					  is_suitable_file.c is_number.c is_overflow.c \
+					  get_id_options.c valid_visual.c valid_dump.c valid_n.c \
+					  new_valid_obj.c validation_args.c \
+					  is_options.c \
+					  add_file_new_player_to_arg_obj.c destroy_options_list.c \
+					  destroy_options.c \
+					  is_options_player.c save_error_to_log.c new_obj_dump.c \
+					  get_option_obj.c \
+					  \
+					  new_options_list.c add_option.c\
+					  \
+					  print_space.c print_line.c \
+					  \
+					  new_player.c debug_print_player.c destroy_player.c \
+					  \
+					  new_players.c \
+					  debug_print_players.c push_player_to_players.c \
+					  destroy_players.c \
+					  \
+					  debug_print_args_obj.c \
+					  \
+					  new_file.c destroy_file.c debug_print_file.c \
+					  \
+					  add_new_options_to_arg_obj.c \
+					  \
+					  destroy_args_obj.c new_args_obj.c
+
+
+OBJS_COREWAR		= $(SRCS_COREWAR:.c=.o)
+
+SRCS_WITH_PATH_COREWAR = $(addprefix $(PATH_SRCS_COREWAR)/, $(SRCS_COREWAR))
+
+OBJS_WITH_PATH_COREWAR = $(addprefix $(PATH_OBJECTS)/, $(OBJS_COREWAR))
+
+FLAGS		= -Wall -Wextra -Werror
+
+all: debug $(COREWAR)
+
+debug:
+	@echo $(OBJS_COREWAR)
+	@echo "\n\n\n"
+	@echo $(PATHS_SRCS_COREWAR)
+
+$(COREWAR): $(LIBFT) $(LIBFTPRINTF) $(PATH_OBJECTS) init_loading_corewar \
+			$(HEADERS_COREWAR) $(OBJS_WITH_PATH_COREWAR)
+	@gcc $(FLAGS) $(OBJS_WITH_PATH_COREWAR) -I $(PATH_HEDES) \
+		-L $(PATH_LIBFT) -lft -L $(PATH_LIBFT_PRINTF) -lftprintf -o $(COREWAR)
+	@printf "\r\e[2K"
+	@echo "Done compilling $(COREWAR)!"
+	@sh $(PATH_SCRIPTS)/destroy_loading.sh
+
+$(PATH_OBJECTS):
+	@mkdir $(PATH_OBJECTS)
+
+$(OBJS_WITH_PATH_COREWAR): $(PATH_OBJECTS)%.o: $(PATH_SRCS_COREWAR)%.c $(HEADERS_COREWAR)
+	@gcc $(FLAGS) -c $< -I $(PATH_LIBFT) -I $(PATH_LIBFT_PRINTF) -I $(PATH_HEDES) -o $@
+	@echo "$<"
+	
+init_loading_corewar:
+	@sh $(addprefix $(PATH_SCRIPTS)/, init_loading.sh) $(SRCS_COREWAR)
+
+$(LIBFT): libft
+
+$(LIBFTPRINTF): libftprintf
+
+libft:
+	@make -C $(PATH_LIBFT)
+
+libftprintf:
+	@make -C $(PATH_LIBFT_PRINTF)
+
+clean_corewar:
+	@make clean -C $(PATH_LIBFT)
+	@make clean -C $(PATH_LIBFT_PRINTF)
+	@sh $(PATH_SCRIPTS)/print_clean.sh $(COREWAR)
+	@rm -fr $(OBJS_WITH_PATH_COREWAR)
+	@sh $(PATH_SCRIPTS)/check_and_del_dir.sh $(PATH_OBJECTS)
+
+clean: clean_corewar
+
+fclean: clean
+	@make fclean -C $(PATH_LIBFT)
+	@make fclean -C $(PATH_LIBFT_PRINTF)
+	@sh $(PATH_SCRIPTS)/print_fclean.sh $(COREWAR)
+	@rm -fr $(COREWAR)
+	@sh $(PATH_SCRIPTS)/print_fclean.sh $(ASM)
+	@rm -fr $(ASM)
+
+re: fclean all
+
+.PHONY: all libft libftprintf clean fclean clean_corewar init_loading

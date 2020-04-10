@@ -1,0 +1,10 @@
+#*
+*.o
+*.pyc
+*~
+.*sw*
+float.c
+extern/
+node_modules/
+tmp
+vendor/
