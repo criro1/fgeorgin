@@ -36,6 +36,6 @@ class equation
         double res;
 
         res = ft_solve(0, 10, 0.001);
-        System.out.println("root = " + res);
+        System.out.println("the root = " + res);
     }
 }
