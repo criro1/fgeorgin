@@ -6,16 +6,15 @@
 /*   By: wmaykit <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/31 19:18:58 by wmaykit           #+#    #+#             */
-/*   Updated: 2019/09/04 19:29:07 by wmaykit          ###   ########.fr       */
+/*   Updated: 2020/04/21 21:31:42 by artem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftfloat.h"
 #include "libft.h"
 
-static void		ft_power_set(t_tmp *buf, int power)
+static void		ft_power_set(t_tmp *buf)
 {
-	power = 0;
 	buf->power = 1;
 	buf->num[0] = 5;
 	buf->length = 1;
@@ -28,7 +27,7 @@ static void		ft_raise_power_five(t_tmp *buf, int power)
 	unsigned	*end;
 
 	if (!buf->power)
-		ft_power_set(buf, power);
+		ft_power_set(buf);
 	diff = power - buf->power;
 	buf->power = power;
 	while (diff--)

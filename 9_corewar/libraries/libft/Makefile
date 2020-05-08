@@ -6,7 +6,7 @@
 #    By: astamm <astamm@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/22 15:15:48 by mwuckert          #+#    #+#              #
-#    Updated: 2020/01/16 09:32:53 by wmaykit          ###   ########.fr        #
+#    Updated: 2020/04/26 09:27:57 by artem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,20 +38,13 @@ FLAGS = -Wall -Wextra -Werror
 
 .PHONY: fclean all re print_comp
 
-all: start_compile $(NAME) end_compile
+all: init_loading $(NAME) destroy_loading
 
-start_compile:
-	@echo '$(SRC)' | grep -o ' '| wc -l | sed 's/      //' > .onestep
-	@ARG=$$(printf "$$(cat ./.onestep).0\n"); python -c "print(50 / $$ARG)" > .onestep
-	@cat .onestep > .all_step
-	@printf "\e[?25l"
-	@printf "\e[?7l"
+init_loading:
+	@../../scripts/make_scripts/init_loading_bar.py "$(OBJECTS)" "$(SRC)" "libft.h" "$(NAME)"
 
-end_compile:
-	@printf "\e[?25h"
-	@printf "\e[?7h"
-	@rm -f .onestep
-	@rm -f .all_step
+destroy_loading:
+	@../../scripts/make_scripts/destroy_loading_bar.py
 
 $(NAME): $(OBJECTS) libft.h
 	@ar rc $(NAME) $(OBJECTS)
@@ -61,26 +54,13 @@ $(NAME): $(OBJECTS) libft.h
 
 %.o : %.c 
 	@gcc $(FLAGS) -c $< -I.
-	@#printf "["
-	@#curr=$$(cat .all_step | cut -d "." -f1); i=0; while [ $$i -lt 50 ] ;\
-		do if [ $$i -lt $$curr ]; then printf "#"; else printf " "; fi; i=$$[ $$i + 1 ]; done
-	@#printf "]"
-	@#printf "\e[K $$(python -c "print($$(cat .all_step | cut -d "." -f1) / 50.0 * 100)")"
-	@#printf " %% $<"
-	@#printf "\r"
-	@#SUMM=$$(printf "$$(cat ./.all_step)"); ONE_STEP=$$(printf "$$(cat ./.onestep)");\
-		python -c "print($$SUMM + $$ONE_STEP)" > .all_step
-	@sh print_loading.sh $<
+	@../../scripts/make_scripts/print_step_loading.py $<
 
 clean:
-	@HAVE_FILE="$$(ls | grep -E '.*\.o$$' | wc -l | sed 's/ *//')";\
-		if [ $$HAVE_FILE -gt "0" ]; then echo "Object file libft deleted!"; fi
 	@rm -rf $(OBJECTS)
 
 fclean: clean
-	@HAVE_FILE="$$(ls | grep $(NAME) | wc -l | sed 's/ *//')";\
-		if [ $$HAVE_FILE -gt "0" ]; then echo "$(NAME) file deleted!"; fi
 	@rm -fr $(NAME)
 
-re: fclean all
+re: fclean all init_loading destroy_loading
 

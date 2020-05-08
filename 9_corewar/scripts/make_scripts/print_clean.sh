@@ -11,6 +11,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-if [ $(ls | grep -c objects) -gt "0" ];
+DIR=$(ls -R | grep -c $2)
+if [ $DIR -gt "0" ];
 then echo "Object file $1 deleted!";
 fi

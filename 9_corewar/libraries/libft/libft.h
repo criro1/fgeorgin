@@ -6,7 +6,7 @@
 /*   By: astamm <astamm@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/02 13:15:59 by mwuckert          #+#    #+#             */
-/*   Updated: 2019/12/14 13:23:50 by astamm           ###   ########.fr       */
+/*   Updated: 2020/03/07 16:48:41 by astamm           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 # define BUFF_SIZE_GNL 500
 
 # include <string.h>
+
+typedef enum	e_boolean
+{
+	True = 1,
+	False = !True
+}				t_boolean;
 
 typedef	struct		s_list
 {

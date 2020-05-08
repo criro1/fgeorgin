@@ -6,7 +6,7 @@
 #    By: wmaykit <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/13 20:58:29 by wmaykit           #+#    #+#              #
-#    Updated: 2020/01/16 09:33:14 by wmaykit          ###   ########.fr        #
+#    Updated: 2020/04/26 09:29:24 by artem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,9 @@ SRCS =	ft_printf.c ft_dprintf.c ft_format_specifer.c ft_parse_precision.c \
 		ft_add_sign_to_buf.c ft_add_space_to_buf.c ft_add_full_format_to_buf.c \
 		ft_add_strn_to_buf.c ft_add_real_num_to_buf.c ft_get_t_real.c \
 		ft_calculate_width.c ft_write_buf.c ft_handling.c ft_is_specifer.c \
-		ft_skip_undefined_behavior.c ft_calculate_precision.c 
+		ft_skip_undefined_behavior.c ft_calculate_precision.c
 
-SRC_LFT =	ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c \
+SRC_LFT = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c \
 		ft_isascii.c ft_isdigit.c ft_isprint.c ft_memccpy.c \
 		ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c \
 		ft_memset.c ft_putchar.c ft_putnbr.c ft_putstr.c \
@@ -71,20 +71,13 @@ INCLUDES_LFTFLOAT = float/
 
 FLAGS = -Wall -Wextra -Werror
 
-all: start_compile $(NAME) end_compile
+all: init_loading $(NAME) destroy_loading
 
-start_compile:
-	@echo '$(SRCS)' | grep -o ' '| wc -l | sed 's/ *//' > .onestep
-	@ARG=$$(printf "$$(cat ./.onestep).0\n"); python -c "print(50 / $$ARG)" > .onestep
-	@cat .onestep > .all_step
-	@printf "\e[?7l"
-	@printf "\e[?25l"
+init_loading:
+	@../../scripts/make_scripts/init_loading_bar.py "$(OBJECTS)" "$(SRCS)" "$(NAME:.a=.h)" "$(NAME)"
 
-end_compile:
-	@printf "\e[?25h"
-	@printf "\e[?7h"
-	@rm -f .onestep
-	@rm -f .all_step
+destroy_loading:
+	@../../scripts/make_scripts/destroy_loading_bar.py
 
 $(NAME): $(OBJECTS)
 	@ar -r -c -s $(NAME) $(OBJECTS)
@@ -93,28 +86,15 @@ $(NAME): $(OBJECTS)
 
 $(OBJECTS): %.o: %.c $(NAME:.a=.h)
 	@gcc $(FLAGS) -c $< -I $(INCLUDES_LFT) -I $(INCLUDES_LFTFLOAT) -o $@
-	@#printf "["
-	@#curr=$$(cat .all_step | cut -d "." -f1); i=0; while [ $$i -lt 50 ] ;\
-		do if [ $$i -lt $$curr ]; then printf "#"; else printf " "; fi; i=$$[ $$i + 1 ]; done
-	@#printf "]"
-	@#printf "\e[K $$(python -c "print($$(cat .all_step | cut -d "." -f1) / 50.0 * 100)")"
-	@#printf " %% $<"
-	@#printf "\r"
-	@#SUMM=$$(printf "$$(cat ./.all_step)"); ONE_STEP=$$(printf "$$(cat ./.onestep)");\
-		python -c "print($$SUMM + $$ONE_STEP)" > .all_step
-	@sh print_loading.sh $<
+	@../../scripts/make_scripts/print_step_loading.py $<
 
 clean:
-	@HAVE_FILE="$$(ls | grep -E '.*\.o$$' | wc -l | sed 's/ *//')";\
-		if [ $$HAVE_FILE -gt "0" ]; then echo "Object file libftprintf deleted!"; fi
 	@rm -f $(OBJECTS)
 
 fclean: clean
-	@HAVE_FILE="$$(ls | grep $(NAME) | wc -l | sed 's/ *//')";\
-		if [ $$HAVE_FILE -gt "0" ]; then echo "$(NAME) file deleted!"; fi
 	@rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re init_loading destroy_loading
 
