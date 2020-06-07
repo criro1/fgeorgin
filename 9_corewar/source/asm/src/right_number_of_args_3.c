@@ -12,9 +12,38 @@
 
 #include "asm.h"
 
-int			register_is_valid(char *content)
+static long long	ft_atoi_local(const char *str)
 {
-	if (ft_atoi(content + 1) >= 0 && ft_atoi(content + 1) <= 99)
+	long long		nb;
+	int				sign;
+
+	nb = 0;
+	sign = 1;
+	while (ft_isspace((int)(*str)))
+		str++;
+	if (*str == '-' || *str == '+')
+		if (*str++ == '-')
+			sign = -1;
+	while (ft_isdigit((int)(*str)))
+	{
+		if ((nb * 10 + *str - '0') / 10 == nb)
+			nb = nb * 10 + *str++ - '0';
+		else if (sign == -1)
+			return (0);
+		else
+			return (-1);
+	}
+	return ((long)nb * sign);
+}
+
+int					register_is_valid(char *content)
+{
+	if (*(content + 1) == '0' && *(content + 2) && ft_isdigit(*(content + 2)))
+	{
+		ft_printf("Invalid register - %s\n", content);
+		return (0);
+	}
+	if (ft_atoi_local(content + 1) >= 0 && ft_atoi_local(content + 1) <= 99)
 	{
 		content++;
 		while (*content)
@@ -32,7 +61,7 @@ int			register_is_valid(char *content)
 	return (0);
 }
 
-int			such_label_exists(t_labels *labels, char *name)
+int					such_label_exists(t_labels *labels, char *name)
 {
 	while (labels)
 	{
@@ -43,7 +72,7 @@ int			such_label_exists(t_labels *labels, char *name)
 	return (0);
 }
 
-int			arg_is_valid(char *token_type)
+int					arg_is_valid(char *token_type)
 {
 	if (!ft_strcmp(token_type, "register") || !ft_strcmp(token_type, "direct")
 		|| !ft_strcmp(token_type, "indirect") ||

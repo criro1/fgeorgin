@@ -62,10 +62,9 @@ int			right_number_of_args_3_3(int arg_n, t_token_node **token,
 		((!ft_strcmp(save->next->type, "register") &&
 		register_is_valid(save->next->content)) || !ft_strcmp(save->next->type,
 		"direct") || (such_label_exists(labels, save->next->content) &&
-		(!ft_strcmp(save->next->type, "indir_label") ||
-		!ft_strcmp(save->next->type, "dir_label")) &&
-		(!ft_strcmp(save->next->next->type, "register") &&
-		register_is_valid(save->next->next->content)))))
+		!ft_strcmp(save->next->type, "dir_label"))) &&
+		((!ft_strcmp(save->next->next->type, "register") &&
+		register_is_valid(save->next->next->content))))
 		return (1);
 	return (0);
 }
@@ -93,7 +92,7 @@ int			right_number_of_args_3_2(int arg_n, t_token_node **token,
 		"direct") || !ft_strcmp(save->next->type, "indirect") ||
 		(such_label_exists(labels, save->next->content) &&
 		(!ft_strcmp(save->next->type, "indir_label") ||
-		!ft_strcmp(save->next->type, "indir_label")))) &&
+		!ft_strcmp(save->next->type, "dir_label")))) &&
 		(!ft_strcmp(save->next->next->type, "register") &&
 		register_is_valid(save->next->next->content)))
 		return (1);
@@ -117,7 +116,7 @@ int			right_number_of_args_3_1(int arg_n, t_token_node **token)
 		register_is_valid(save->content)) &&
 		(!ft_strcmp(save->next->type, "register") &&
 		register_is_valid(save->next->content)) &&
-		(!ft_strcmp(save->next->type, "register") &&
+		(!ft_strcmp(save->next->next->type, "register") &&
 		register_is_valid(save->next->next->content)))
 		return (1);
 	return (0);

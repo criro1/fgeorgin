@@ -12,6 +12,21 @@
 
 #include "asm.h"
 
+static int			multiple_commas(char *ptr)
+{
+	if (*ptr && *ptr == SEPARATOR_CHAR && (*(ptr + 1) == SEPARATOR_CHAR ||
+		(*(ptr - 1) == SEPARATOR_CHAR)))
+		return (1);
+	if (*ptr && *ptr == SEPARATOR_CHAR)
+	{
+		while (*ptr && ft_isspace(*ptr))
+			ptr++;
+		if (*ptr && *ptr == SEPARATOR_CHAR)
+			return (1);
+	}
+	return (0);
+}
+
 static void			ft_compare_instr(char *instr,
 							t_token_list **token_list, int *arg_max)
 {
@@ -74,6 +89,8 @@ void				parse_args(char *ptr, t_token_list *token_list)
 			break ;
 		else if (*ptr && *ptr != SEPARATOR_CHAR)
 			ft_exit(token_list, "Error: wrong symbol in arguments\n");
+		else if (multiple_commas(ptr))
+			ft_exit(token_list, "Bad separators\n");
 		ft_end_of_while_parse_args(&token_list, &pa->arg_amount,
 											&pa->right, &pa->arg_max);
 	}

@@ -6,7 +6,7 @@
 #    By: cwitting <cwitting@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/05 13:42:34 by cwitting          #+#    #+#              #
-#    Updated: 2020/04/26 20:38:40 by artem            ###   ########.fr        #
+#    Updated: 2020/05/01 17:45:25 by artem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SRC_FILES = asm.c assemble.c ft_strnjoin.c create_token.c get_name.c get_comment
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror
 
 all: libft libftprintf init_loading $(NAME)
 
