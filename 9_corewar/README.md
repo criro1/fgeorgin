@@ -3,6 +3,6 @@
 Задание в файле corewar.en.pdf
 
 Запуск:
-make
-./asm kuzia.s
-./corewar -v kuzia.cor
+1) make
+2) ./asm kuzia.s
+3) ./corewar -v kuzia.cor
