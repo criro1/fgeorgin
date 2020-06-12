@@ -12,12 +12,12 @@
 
 #include "libft.h"
 
-char		*itos_with_base(intmax_t n, int base)
+char		*itos_with_base(__intmax_t n, int base)
 {
 	static char		*num_bukv;
 	static char		buffer[50];
 	char			*ptr;
-	uintmax_t		num;
+	__uintmax_t		num;
 
 	num_bukv = "0123456789abcdef";
 	num = ((n < 0) ? n * -1 : n);
@@ -33,9 +33,9 @@ char		*itos_with_base(intmax_t n, int base)
 	return (ptr);
 }
 
-intmax_t	get_value_of_i(va_list arg, t_par par)
+__intmax_t	get_value_of_i(va_list arg, t_par par)
 {
-	intmax_t	i;
+	__intmax_t	i;
 
 	i = 0;
 	if (par.type == 'D')
@@ -51,7 +51,7 @@ intmax_t	get_value_of_i(va_list arg, t_par par)
 		else if (!ft_strncmp(par.length, "ll", 2))
 			i = (long long)(va_arg(arg, long long int));
 		else if (!ft_strncmp(par.length, "j", 1))
-			i = (va_arg(arg, intmax_t));
+			i = (va_arg(arg, __intmax_t));
 		else if (!ft_strncmp(par.length, "z", 1))
 			i = (size_t)(va_arg(arg, size_t));
 	}
@@ -60,7 +60,7 @@ intmax_t	get_value_of_i(va_list arg, t_par par)
 	return (i);
 }
 
-char		set_i_sign(intmax_t i, t_par par)
+char		set_i_sign(__intmax_t i, t_par par)
 {
 	if (i < 0)
 		return ('-');
@@ -97,7 +97,7 @@ void		do_with_i_part_2(t_par par, char sign, char *s, int *len)
 
 void		do_with_i(va_list arg, t_par par)
 {
-	intmax_t	i;
+	__intmax_t	i;
 	char		sign;
 	char		*s;
 	int			len[2];

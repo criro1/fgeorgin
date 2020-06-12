@@ -90,7 +90,7 @@ void		do_with_p(va_list arg, t_par par)
 	char		*s;
 	int			len[2];
 
-	s = itos_with_base(va_arg(arg, intmax_t), 16);
+	s = itos_with_base(va_arg(arg, __intmax_t), 16);
 	len[0] = (!ft_strcmp(s, "0") && !par.pre ? 0 : ft_strlen(s));
 	len[1] = (par.pre > len[0] ? par.pre : len[0]) + 2;
 	if (par.minus || par.zero)

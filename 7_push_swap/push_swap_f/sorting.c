@@ -70,7 +70,8 @@ void	ft_sorting(t_arr **a_st, t_arr **b_st, int v, int *ar)
 	int res;
 	int curr[3];
 
-	ar = (int*)malloc(sizeof(int) * 5);
+	res = 0;
+	ar = (int*)malloc(sizeof(int) * 5 + res);
 	ar[3] = ft_lstlen(*b_st);
 	while (*b_st)
 	{

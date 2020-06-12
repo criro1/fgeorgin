@@ -23,7 +23,7 @@ void		tank_to_buff(void)
 	join_to_buff(tank, -1, 0);
 }
 
-char		*uitos_with_base(uintmax_t n, int base, char flag_big)
+char		*uitos_with_base(__uintmax_t n, int base, char flag_big)
 {
 	static char		*num_little_bukv;
 	static char		*num_big_bukv;
@@ -46,9 +46,9 @@ char		*uitos_with_base(uintmax_t n, int base, char flag_big)
 	return (ptr);
 }
 
-uintmax_t	get_value_of_oux(va_list arg, t_par par)
+__uintmax_t	get_value_of_oux(va_list arg, t_par par)
 {
-	uintmax_t	val;
+	__uintmax_t	val;
 
 	val = 0;
 	if (par.type == 'U' || par.type == 'O')
@@ -64,7 +64,7 @@ uintmax_t	get_value_of_oux(va_list arg, t_par par)
 		else if (!ft_strncmp(par.length, "l", 1))
 			val = (unsigned long)(va_arg(arg, unsigned long int));
 		else if (!ft_strncmp(par.length, "j", 1))
-			val = (va_arg(arg, intmax_t));
+			val = (va_arg(arg, __intmax_t));
 		else if (!ft_strncmp(par.length, "z", 1))
 			val = (size_t)(va_arg(arg, size_t));
 	}
@@ -73,7 +73,7 @@ uintmax_t	get_value_of_oux(va_list arg, t_par par)
 	return (val);
 }
 
-void		do_with_o_part_2(t_par par, uintmax_t o, char *s, int *len)
+void		do_with_o_part_2(t_par par, __uintmax_t o, char *s, int *len)
 {
 	if (par.zero && par.pre < 0)
 	{
@@ -95,7 +95,7 @@ void		do_with_o_part_2(t_par par, uintmax_t o, char *s, int *len)
 
 void		do_with_o(va_list arg, t_par par)
 {
-	uintmax_t	o;
+	__uintmax_t	o;
 	char		*s;
 	int			len[2];
 

@@ -46,7 +46,7 @@ void		do_with_x_part_2(t_par par, char *hash, char *s, int *len)
 
 void		do_with_x(va_list arg, t_par par)
 {
-	uintmax_t	x;
+	__uintmax_t	x;
 	char		*s;
 	int			len[2];
 	char		*hash;
@@ -72,7 +72,7 @@ void		do_with_x(va_list arg, t_par par)
 		do_with_x_part_2(par, hash, s, len);
 }
 
-void		do_with_u_part_2(t_par par, uintmax_t u, char *s, int *len)
+void		do_with_u_part_2(t_par par, __uintmax_t u, char *s, int *len)
 {
 	if (par.zero && par.pre < 0)
 	{
@@ -90,7 +90,7 @@ void		do_with_u_part_2(t_par par, uintmax_t u, char *s, int *len)
 
 void		do_with_u(va_list arg, t_par par)
 {
-	uintmax_t	u;
+	__uintmax_t	u;
 	char		*s;
 	int			len[2];
 
