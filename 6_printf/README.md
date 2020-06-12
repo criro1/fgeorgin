@@ -4,5 +4,5 @@
 
 Запускать:
 1) make
-2) gcc main.c (файл main.c можно менять для проверки)
+2) gcc main.c libftprintf.a (файл main.c можно менять для проверки)
 3) ./a.out
