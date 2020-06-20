@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-void		ft_do_tmp(t_link **fin, t_link **tmp, t_w_and_d *st, int stat)
+void		ft_do_tmp_1(t_link **fin, t_link **tmp, t_w_and_d *st, int stat)
 {
 	int i;
 
@@ -52,7 +52,7 @@ void		ft_print_ants(t_map *map, t_link **fin, t_w_and_d *st, int *room)
 	int		res;
 	t_link	*tmp[st->diff_len];
 
-	ft_do_tmp(fin, tmp, st, 0);
+	ft_do_tmp_1(fin, tmp, st, 0);
 	res = 0;
 	while (res < st->diff_len)
 	{
@@ -72,7 +72,7 @@ void		ft_print_ants(t_map *map, t_link **fin, t_w_and_d *st, int *room)
 		}
 		ft_printf("\n");
 	}
-	ft_do_tmp(fin, tmp, st, 1);
+	ft_do_tmp_1(fin, tmp, st, 1);
 }
 
 void		ft_add_ant(t_link **fin_j, int ant)
@@ -103,40 +103,31 @@ void		ft_add_ant(t_link **fin_j, int ant)
 	}
 }
 
-void        ft_ants_to_ways(t_map *map, t_w_and_d *st)
+void		ft_ants_to_ways(t_map *map, t_w_and_d *st)
 {
-    t_link  **fin;
-    int     ant;
-    int     j;
-    int     *room;
-    int     need;
+	t_link	**fin;
+	int		ant;
+	int		j;
+	int		*room;
 
-    fin = (t_link**)ft_memalloc(sizeof(t_link*) * st->diff_len);
-    ant = 1;
-    need = 1;
-    j = 0;
-    while (map->num_ants + 1 - need > st->diff[j])
-    {
-        need++;
-        j++;
-    }
-    while (ant <= map->num_ants)
-    {
-        j = 0;
-        while (j < st->diff_len)
-        {
-            if (map->num_ants + 1 - ant > st->diff[j])
-            {
-                ft_add_ant(&(fin[j]), ant);
-                ant++;
-            }
+	fin = (t_link**)ft_memalloc(sizeof(t_link*) * st->diff_len);
+	ant = 1;
+	while (ant <= map->num_ants)
+	{
+		j = 0;
+		while (j < st->diff_len)
+		{
+			if (map->num_ants + 1 - ant > st->diff[j])
+			{
+				ft_add_ant(&(fin[j]), ant);
+				ant++;
+			}
 			else
 				break ;
-            j++;
-        }
-    }
-    j = st->diff_len;
-    room = ft_malloc_roooms(j);
-    ft_print_ants(map, fin, st, room);
-    ft_free_fin(fin, st->diff_len, room);
+			j++;
+		}
+	}
+	room = ft_malloc_roooms(st->diff_len);
+	ft_print_ants(map, fin, st, room);
+	ft_free_fin(fin, st->diff_len, room);
 }

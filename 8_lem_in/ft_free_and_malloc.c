@@ -62,7 +62,6 @@ t_map		*ft_copy_map(t_map *map)
 		sh_w->room[i].y = map->room[i].y;
 		i++;
 	}
-
 	sh_w->start = map->start;
 	sh_w->end = map->end;
 	sh_w->sum_r = map->sum_r;

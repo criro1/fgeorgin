@@ -12,133 +12,67 @@
 
 #include "lem_in.h"
 
-
-
-
-
-void	ft_duplicate_room(t_map *map, int cur_ind, t_room *cur)
+void		ft_duplicate_room(t_map *map, int cur_ind, t_room *cur)
 {
 	int duplicate;
 
 	duplicate = map->sum_r + map->sum_d;
 	cur[duplicate].num = cur[cur_ind].num;
-	// cur[duplicate].dup = 1;
+	cur[cur_ind].ind_out_room = duplicate;
+	cur[duplicate].ind_out_room = cur_ind;
 	cur[duplicate].name = ft_strjoin(cur[cur_ind].name, " Out");
 	cur[cur_ind].ind_out_room = duplicate;
 	cur[duplicate].links = cur[cur_ind].links;
 	cur[cur_ind].links = NULL;
-	// printf("\nname: %s, num: %d = %d\n", cur[duplicate].name, cur[duplicate].num, duplicate);
 }
 
-void	 	ft_make_dup_room(t_map *map, int *way)
+int			*ft_make_dup_room_1(int *arr)
 {
-	int room_in_way;
-	int room;
-	t_room *cur;
+	int *res;
+	int i;
+
+	res = (int*)ft_memalloc(sizeof(int) * arr[0] + 1);
+	i = 0;
+	while (i < arr[0] + 1)
+	{
+		res[i] = arr[i];
+		i++;
+	}
+	return (res);
+}
+
+int			*ft_make_dup_room(t_map *map, int *way)
+{
+	int		room;
+	t_room	*cur;
+	int		arr[1000];
 
 	room = 2;
-	// map->sum_d = map->sum_r; //sum_d - sum_r = count duplicates rooms
-	room_in_way = way[0];
 	cur = map->room;
-	while (room <= room_in_way)
+	arr[0] = 0;
+	while (room <= way[0])
 	{
-		ft_duplicate_room(map, way[room], cur);
-		map->sum_d++; // after (sum_r - 1) counts rooms duplicates, before - originals
+		if (map->room[way[room]].ind_out_room == -1)
+		{
+			ft_duplicate_room(map, way[room], cur);
+			map->sum_d++;
+		}
+		else
+		{
+			arr[arr[0] + 1] = way[room];
+			arr[0]++;
+		}
 		room++;
 	}
-}
-
-void	ft_dup_link(t_map *map, int end, int start, t_room *cur)
-{
-	t_link *iter;
-
-	iter = cur[end].links;
-	while (iter && iter->link_num != cur[start].num)
-		iter = iter->next;
-	if (iter && cur[start].ind_out_room != -1)
-	{
-		iter->link_num = cur[start].ind_out_room;
-		iter->weight = -1;
-	}
-	else if (!iter && cur[start].ind_out_room != -1)
-	{
-		make_link(map, cur[end].num, cur[start].ind_out_room);
-		cur[end].links->weight = -1;
-	}
-	else
-	{
-		make_link(map, cur[end].num, cur[start].num);
-		cur[end].links->weight = -1;
-	}
-	//======================================================================
-	// This create link for OUR room
-	// two part 
-	if (cur[end].ind_out_room != -1)
-	{
-		iter = cur[cur[end].ind_out_room].links;
-		// while (iter && iter->link_num != start) // it's bad
-		while (iter && iter->link_num != start) // it's bad =====fgeorgin добавил iter &&
-			iter = iter->next;
-		if (iter)
-		{
-			iter->link_num = end;
-			iter->weight = 0;
-		}
-	}
-}
-
-void	ft_make_dup_link(t_map *map, int *way)
-{
-	int count;
-	// int i;
-	t_room *cur;
-
-	cur = map->room;
-	// i = way[0];
-	count = way[0] + 1;
-	while (count >= 2)
-	{
-		ft_dup_link(map, way[count], way[count - 1], cur);
-		count--;
-	}
+	return (ft_make_dup_room_1(arr));
 }
 
 void		ft_suurballe(t_map *map, int *way)
 {
-	// ft_print_map(map);
-	// printf("\nSUURBALE\n");
-	
-	ft_make_dup_room(map, way);
-	map->tmp = 	map->sum_d - 1;
-	ft_make_dup_link(map, way);
+	int *res;
 
-	// ft_print_map(map);
-	// exit (1);
-	// printf("\nSUURBALE\n"); 
+	res = ft_make_dup_room(map, way);
+	map->tmp = map->sum_d - 1;
+	ft_make_dup_link(map, way, res);
+	free(res);
 }
-
-
-
-
-
-void		ft_print_way(t_map *map, int *way)
-{
-	int i;
-	t_room *cur;
-
-	cur = map->room;
-	if (way[0] == 2147483647)
-		return ;
-	i = 0;
-	printf("\nWay\n");
-	while (++i <= (way[0] + 1))
-		printf("\nRoom in way: %s\n", cur[way[i]].name);
-}
-
-
-
-
-
-
-
-

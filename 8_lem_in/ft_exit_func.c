@@ -6,7 +6,7 @@
 /*   By: ediego <ediego@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 18:16:32 by ediego            #+#    #+#             */
-/*   Updated: 2020/02/24 14:42:37 by ediego           ###   ########.fr       */
+/*   Updated: 2020/03/08 14:59:30 by ediego           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 void		ft_free_head(t_str *head)
 {
+	t_str *tmp;
+
 	while (head)
 	{
-		if (head->line)
-			free(head->line);
-		free(head);
+		tmp = head;
 		head = head->next;
+		if (tmp->line)
+			free(tmp->line);
+		free(tmp);
 	}
 }
 
@@ -45,7 +48,22 @@ void		ft_exit(t_map *map, char *line, int err)
 	ft_free_head(map->head);
 	free(map);
 	if (err == 0)
-		write(2, "Error\n", 6);
+		write(2, "ERROR\n", 6);
 	if (err == 0)
 		exit(0);
+}
+
+void		ft_clear_map(t_map *map)
+{
+	t_room	*cur;
+	int		i;
+
+	i = 0;
+	cur = map->room;
+	while (cur[i].name)
+		cur[i++].visited = 0;
+	if (map->queue)
+		free(map->queue);
+	if (map->parent)
+		free(map->parent);
 }

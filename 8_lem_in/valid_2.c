@@ -33,6 +33,7 @@ void		make_link(t_map *map, int n0, int n1)
 
 	l = (t_link*)ft_memalloc(sizeof(t_link));
 	l->link_num = n1;
+	l->next = NULL;
 	if (map->room[n0].links == NULL)
 	{
 		map->room[n0].links = l;

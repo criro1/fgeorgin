@@ -4,5 +4,5 @@
 
 Запускать:
 1) make
-2) ./lem-in map/test
-3) ./lem-in -v map/test (визуализация)
+2) ./lem-in map/test (любой файл из папки)
+3) ./lem-in -v map/test ("-v" для визуализации)
